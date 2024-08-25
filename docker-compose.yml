@@ -1,21 +1,11 @@
-version: "3.8"
 services:
-  frontend:
+  next:
     build: 
       context: .
-      dockerfile: DockerfileFront
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend:/frontend
+      - ./twitter:/twitter
     command: sh -c "npm run dev"
     stdin_open: true
-  backend:
-    build: 
-      context: .
-      dockerfile: DockerfileBack
-    ports:
-      - "3001:3001"
-    volumes:
-      - ./backend:/backend
-    command: sh -c "PORT=3001 npm run dev"
