@@ -32,6 +32,7 @@ export default function Home() {
           </Button>
           <p>または</p>
           <Button
+            disabled
             className="flex items-center justify-center gap-3 border rounded-full w-full border-black py-2"
           >アカウントを作成</Button>
         </div>
