@@ -1,13 +1,13 @@
 import { getCurrentUser } from "../lib/session";
 
-export default async function useSidebarHook() {
-    type ItemListType = {
-        label: string;
-        svg: string;
-        disabled: boolean;
-        href: string;
-    };
+type ItemListType = {
+    label: string;
+    svg: string;
+    disabled: boolean;
+    href: string;
+};
 
+export default async function useSidebarHook() {
     const ITEM_LIST: ItemListType[] = [
         {
             label: "Home",

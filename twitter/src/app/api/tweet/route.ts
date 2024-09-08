@@ -11,7 +11,12 @@ export async function GET(req: NextRequest) {
             return NextResponse.json("Unauthorized", { status: 403 });
         }
 
-        const tweets = await db.tweet.findMany();
+        const tweets = await db.tweet.findMany({
+            include: {
+                user: true
+            }
+        });
+
         return NextResponse.json(tweets);
 
     } catch {
