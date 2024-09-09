@@ -5,6 +5,11 @@ export default function Tweet({ tweet }: { tweet: TweetType }) {
         <div>
             <div className="flex gap-2 p-4">
                 <div className="bg-slate-400 w-8 h-8 rounded-full">
+                    {tweet.user.image && <img
+                        src={tweet.user.image}
+                        alt="icon"
+                        className="w-full h-full rounded-full"
+                    />}
                 </div>
                 <div>
                     <p>{tweet.user.name}</p>

@@ -35,7 +35,9 @@ export default async function Sidebar() {
             <div
                 className="flex items-center gap-3 cursor-pointer"
             >
-                <div className="bg-slate-400 w-8 h-8 rounded-full"></div>
+                <div className="bg-slate-400 w-8 h-8 rounded-full">
+                    {user && <img className="w-full h-full rounded-full" src={user.image!} alt="icon" />}
+                </div>
                 <p>{user?.name}</p>
             </div>
         </aside >
