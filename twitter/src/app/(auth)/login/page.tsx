@@ -1,7 +1,7 @@
 "use client"
 
-import Button from "@/app/components/Button";
-import UserAuthForm from "@/app/components/UserAuthForm";
+import Button from "@/components/Button";
+import UserAuthForm from "@/components/UserAuthForm";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 
@@ -9,7 +9,7 @@ export default function Login() {
     const [isGithubLoading, setIsGithubLoading] = useState<boolean>(false);
 
     return (
-        <div className="container flex flex-col gap-5 min-h-screen items-center justify-center w-96 mx-auto">
+        <div className="flex flex-col gap-5 min-h-screen items-center justify-center w-96 mx-auto">
             <h1 className="text-3xl">ログイン</h1>
             <UserAuthForm />
             <span>または</span>

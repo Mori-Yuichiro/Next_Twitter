@@ -1,5 +1,5 @@
-import { authOptions } from "@/app/lib/auth";
-import { db } from "@/app/lib/db";
+import { authOptions } from "@/lib/auth";
+import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";

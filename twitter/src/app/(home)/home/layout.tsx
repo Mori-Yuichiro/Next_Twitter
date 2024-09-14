@@ -1,5 +1,5 @@
-import LightSidebar from "@/app/components/LightSideBar";
-import Sidebar from "@/app/components/Sidebar"
+import LightSidebar from "@/components/LightSideBar";
+import Sidebar from "@/components/Sidebar";
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
     return (
