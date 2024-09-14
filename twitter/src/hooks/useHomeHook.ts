@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import axiosInstance from "../lib/axiosInstance";
-import { TweetType } from "../types/tweet";
+import { TweetType } from "../app/types/tweet";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { tweetPatchSchema, tweetPatchSchemaType } from "../lib/validations/tweet";
 import { useEffect, useState } from "react";

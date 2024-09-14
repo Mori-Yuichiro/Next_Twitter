@@ -1,15 +1,15 @@
 "use client"
 
+import Button from "@/components/Button";
 import { signIn } from "next-auth/react";
-import Button from "./components/Button";
 import { useState } from "react";
 
 export default function Home() {
   const [isGithubLoading, setIsGithubLoading] = useState<boolean>(false);
 
   return (
-    <main className="min-h-screen flex flex-col lg:flex-row items-center gap-20 p-10 lg:p-0">
-      <div className="lg:h-dvh w-32 lg:w-1/2 flex flex-col items-center justify-center lg:border-r lg:border-black">
+    <main className="min-h-screen flex max-lg:flex-col items-center gap-20 p-10 lg:p-0">
+      <div className="lg:h-dvh max-lg:w-32 w-1/2 flex flex-col items-center justify-center lg:border-r lg:border-black">
         <svg xmlns="http://www.w3.org/2000/svg" width="80%" height="80%" viewBox="0 0 128 128"><path fill="#1d9bf0" d="M114.896 37.888c.078 1.129.078 2.257.078 3.396c0 34.7-26.417 74.72-74.72 74.72v-.02A74.343 74.343 0 0 1 0 104.21c2.075.25 4.16.375 6.25.38a52.732 52.732 0 0 0 32.615-11.263A26.294 26.294 0 0 1 14.331 75.09c3.937.76 7.993.603 11.857-.453c-12.252-2.475-21.066-13.239-21.066-25.74v-.333a26.094 26.094 0 0 0 11.919 3.287C5.5 44.139 1.945 28.788 8.913 16.787a74.535 74.535 0 0 0 54.122 27.435a26.277 26.277 0 0 1 7.598-25.09c10.577-9.943 27.212-9.433 37.154 1.139a52.696 52.696 0 0 0 16.677-6.376A26.359 26.359 0 0 1 112.92 28.42A52.227 52.227 0 0 0 128 24.285a53.35 53.35 0 0 1-13.104 13.603z" /></svg>
       </div>
       <div className="flex flex-col text-left gap-4">

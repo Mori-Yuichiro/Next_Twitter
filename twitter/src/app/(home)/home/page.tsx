@@ -1,8 +1,8 @@
 "use client"
 
-import Button from "@/app/components/Button";
-import Tweet from "@/app/components/Tweet";
-import useHomeHook from "@/app/hooks/useHomeHook";
+import Button from "@/components/Button";
+import Tweet from "@/components/Tweet";
+import useHomeHook from "@/hooks/useHomeHook";
 
 export default function HomePage() {
     const { tweets, register, handleSubmit, errors, onSubmit } = useHomeHook();
@@ -18,7 +18,7 @@ export default function HomePage() {
                 </li>
             </ul>
             <div className="border-b border-black p-3">
-                {errors && <p>{errors.content?.message}</p>}
+                {errors && <p className="text-red-500">{errors.content?.message}</p>}
                 <form
                     onSubmit={handleSubmit(onSubmit)}
                     className="flex flex-col gap-5"
