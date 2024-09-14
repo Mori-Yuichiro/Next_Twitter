@@ -17,6 +17,7 @@ export default function useHomeHook() {
     async function onSubmit(data: tweetPatchSchemaType) {
         const response = await instance.post('api/tweet', data);
         console.log(response);
+        window.location.reload();
     }
 
     useEffect(() => {

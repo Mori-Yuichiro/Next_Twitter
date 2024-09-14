@@ -2,7 +2,7 @@ import Button from "./Button";
 
 export default function LightSidebar() {
     return (
-        <div className="w-60 flex flex-col gap-5 border-l border-black px-5 py-4">
+        <div className="w-60 flex flex-col gap-5 border-l border-black px-5 py-4 max-md:hidden">
             <input
                 type="text"
                 placeholder="Search"
