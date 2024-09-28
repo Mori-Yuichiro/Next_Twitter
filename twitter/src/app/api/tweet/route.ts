@@ -5,7 +5,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 const postSchema = z.object({
-    content: z.string()
+    content: z.string(),
+    imageUrls: z.array(z.string()).optional()
 });
 
 export async function GET(req: NextRequest) {
@@ -40,11 +41,12 @@ export async function POST(req: NextRequest) {
             return NextResponse.json("Unauthorized", { status: 403 });
         }
 
+
         const { user } = session;
 
         const json = await req.json();
         const body = postSchema.parse(json);
-        const { content } = body;
+        const { content, imageUrls } = body;
 
         const now = new Date();
 
@@ -53,7 +55,8 @@ export async function POST(req: NextRequest) {
                 content,
                 createdAt: now,
                 updatedAt: now,
-                userId: Number(user.id)
+                userId: Number(user.id),
+                imageUrls
             },
             select: {
                 id: true

@@ -6,5 +6,6 @@ export type TweetType = {
     createdAt: string;
     updatedAt: string;
     userId: number;
+    imageUrls: string[];
     user: User;
 }

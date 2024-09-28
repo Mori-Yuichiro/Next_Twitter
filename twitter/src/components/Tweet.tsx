@@ -1,4 +1,4 @@
-import { TweetType } from "../types/tweet";
+import { TweetType } from "@/app/types/tweet";
 
 export default function Tweet({ tweet }: { tweet: TweetType }) {
     return (
@@ -11,9 +11,19 @@ export default function Tweet({ tweet }: { tweet: TweetType }) {
                         className="w-full h-full rounded-full"
                     />}
                 </div>
-                <div>
+                <div className="flex flex-col gap-y-2">
                     <p>{tweet.user.name}</p>
                     <p>{tweet.content}</p>
+                    {(tweet.imageUrls.length > 0) &&
+                        <div className="grid grid-cols-2 gap-x-5 gap-y-3">
+                            {tweet.imageUrls.map(imageUrl => {
+                                return (
+                                    <div key={imageUrl} className="w-40">
+                                        <img src={imageUrl} alt="ツイート画像" />
+                                    </div>
+                                );
+                            })}
+                        </div>}
                 </div>
             </div>
             <div className="flex justify-between p-4">
