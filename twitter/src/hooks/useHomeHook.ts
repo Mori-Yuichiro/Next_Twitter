@@ -6,6 +6,7 @@ import { tweetPatchSchema, tweetPatchSchemaType } from "../lib/validations/tweet
 import { useEffect, useRef, useState } from "react";
 import { fileRead } from "@/lib/fileUpload";
 import { ImageType } from "@/app/types/image";
+import { v4 as uuid } from "uuid";
 
 
 export default function useHomeHook() {
@@ -21,9 +22,11 @@ export default function useHomeHook() {
 
         const files = Array.from(e.target.files || []);
         for (const file of files) {
+            const mediaString = uuid();
             selectedImages.push({
                 data: await fileRead(file),
-                fileName: file.name
+                fileName: file.name,
+                mediaString
             });
             selectedImageDatas.push(await fileRead(file));
             setImageDatas([...imageDatas, ...selectedImageDatas]);
@@ -68,6 +71,16 @@ export default function useHomeHook() {
         }
     }
 
+    const deleteDisplayImage = (mediaStr: string) => {
+        const selectImage = images.find(image => image.mediaString === mediaStr);
+        // 表示する画像を削除
+        const updateImages = images.filter(image => image !== selectImage);
+        setImages(updateImages);
+        // 削除した画像を保存用データから削除
+        const updateImageData = imageDatas.filter(imageData => imageData !== selectImage?.data);
+        setImageDatas(updateImageData);
+    }
+
     useEffect(() => {
         async function fetchData() {
             const response = await instance.get('api/tweet');
@@ -75,9 +88,8 @@ export default function useHomeHook() {
                 setTweets(response.data as TweetType[]);
             }
         }
-
         fetchData();
-    }, [])
+    }, [images])
 
     return {
         tweets,
@@ -89,6 +101,7 @@ export default function useHomeHook() {
         fileUpload,
         fileInput,
         images,
-        uploadImage
+        uploadImage,
+        deleteDisplayImage
     };
 }

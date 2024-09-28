@@ -1,4 +1,5 @@
 import { TweetType } from "@/app/types/tweet";
+import Link from "next/link";
 
 export default function Tweet({ tweet }: { tweet: TweetType }) {
     return (
@@ -19,7 +20,13 @@ export default function Tweet({ tweet }: { tweet: TweetType }) {
                             {tweet.imageUrls.map(imageUrl => {
                                 return (
                                     <div key={imageUrl} className="w-40">
-                                        <img src={imageUrl} alt="ツイート画像" />
+                                        <Link
+                                            href={imageUrl}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            <img src={imageUrl} alt="ツイート画像" />
+                                        </Link>
                                     </div>
                                 );
                             })}
