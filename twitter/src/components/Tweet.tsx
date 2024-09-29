@@ -1,25 +1,35 @@
+"use client"
+
 import { TweetType } from "@/app/types/tweet";
+import useTweetHook from "@/hooks/tweet/useTweetHook";
 import Link from "next/link";
 
 export default function Tweet({ tweet }: { tweet: TweetType }) {
+    const { pathName } = useTweetHook();
+
     return (
         <div>
-            <div className="flex gap-2 p-4">
-                <div className="bg-slate-400 w-8 h-8 rounded-full">
+            <div className="flex gap-3 p-4">
+                <div className="bg-slate-400 w-10 h-10 rounded-full">
                     {tweet.user.image && <img
                         src={tweet.user.image}
                         alt="icon"
                         className="w-full h-full rounded-full"
                     />}
                 </div>
-                <div className="flex flex-col gap-y-2">
+                <div className="flex flex-col gap-y-2 w-[calc(100%-40px)]">
                     <p>{tweet.user.name}</p>
-                    <p>{tweet.content}</p>
+                    {(pathName !== "/tweet\/([0-9]+)") ?
+                        <Link href={"/tweet/" + tweet.id}>
+                            <p>{tweet.content}</p>
+                        </Link>
+                        : <p>{tweet.content}</p>
+                    }
                     {(tweet.imageUrls.length > 0) &&
-                        <div className="grid grid-cols-2 gap-x-5 gap-y-3">
+                        <div className={`gap-x-4 gap-y-3 grid ${tweet.imageUrls.length === 1 ? "grid-cols-1" : "grid-cols-2"}`}>
                             {tweet.imageUrls.map(imageUrl => {
                                 return (
-                                    <div key={imageUrl} className="w-40">
+                                    <div key={imageUrl} className={(tweet.imageUrls.length > 0) ? "w-1/2" : undefined}>
                                         <Link
                                             href={imageUrl}
                                             target="_blank"
