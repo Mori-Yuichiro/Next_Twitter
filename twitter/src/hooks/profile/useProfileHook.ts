@@ -19,6 +19,7 @@ export const useProfileHook = (id: string) => {
         location: "",
         website: "",
         birthday: "",
+        profileImageUrl: "",
         createdAt: "",
         updatedAt: "",
         tweets: [{
@@ -40,6 +41,7 @@ export const useProfileHook = (id: string) => {
                 location: "",
                 website: "",
                 birthday: "",
+                profileImageUrl: "",
                 createdAt: "",
                 updatedAt: ""
             }

@@ -49,12 +49,13 @@ export default function Profile(
             <div className="mb-8 px-4 space-y-10">
                 <h1 className="text-xl">{profile.displayName ? profile.displayName : profile.name}</h1>
                 <p>{profile.bio}</p>
+                <p>{profile.website}</p>
                 <div className="flex gap-x-3">
                     <p>0 Following</p>
                     <p>0 Followers</p>
                 </div>
             </div>
-            <ul className="list-reset flex border-b border-black">
+            <ul className="list-reset flex border-b border-black overflow-x-auto">
                 <li className="-mb-px mr-1 w-1/2 mx-auto border-black text-center hover:bg-slate-300">
                     <Link
                         className={`inline-block rounded-t py-2 px-4 text-blue-dark font-semibold ${tab === "posts" && "border-b-8 border-blue-300"}`}
