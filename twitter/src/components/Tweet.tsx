@@ -10,15 +10,20 @@ export default function Tweet({ tweet }: { tweet: TweetType }) {
     return (
         <div>
             <div className="flex gap-3 p-4">
-                <div className="bg-slate-400 w-10 h-10 rounded-full">
+                <Link
+                    href={`/profile/${tweet.user.id}`}
+                    className="bg-slate-400 w-10 h-10 rounded-full"
+                >
                     {tweet.user.image && <img
                         src={tweet.user.image}
                         alt="icon"
                         className="w-full h-full rounded-full"
                     />}
-                </div>
+                </Link>
                 <div className="flex flex-col gap-y-2 w-[calc(100%-40px)]">
-                    <p>{tweet.user.name}</p>
+                    <Link href={`/profile/${tweet.user.id}`}>
+                        <p>{tweet.user.displayName ? tweet.user.displayName : tweet.user.name}</p>
+                    </Link>
                     {(pathName !== "/tweet\/([0-9]+)") ?
                         <Link href={"/tweet/" + tweet.id}>
                             <p>{tweet.content}</p>

@@ -10,6 +10,7 @@ export type User = {
     location: string;
     website: string;
     birthday: string;
+    profileImageUrl: string;
     createdAt: string;
     updatedAt: string;
 }

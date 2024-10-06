@@ -4,7 +4,7 @@ import { TweetType } from "../app/types/tweet";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { tweetPatchSchema, tweetPatchSchemaType } from "../lib/validations/tweet";
 import { useEffect, useRef, useState } from "react";
-import { fileRead } from "@/lib/fileUpload";
+import { fileRead, fileUpload, uploadImage } from "@/lib/fileUpload";
 import { ImageType } from "@/app/types/image";
 import { v4 as uuid } from "uuid";
 
@@ -34,12 +34,6 @@ export default function useHomeHook() {
         setImages([...images, ...selectedImages]);
     }
 
-    const uploadImage = async (imageData: string | ArrayBuffer | null) => {
-        return await instance.post('api/image-upload', {
-            imageData
-        });
-    }
-
     const { register, handleSubmit, formState: { errors } } = useForm<tweetPatchSchemaType>({
         resolver: zodResolver(tweetPatchSchema)
     });
@@ -48,8 +42,8 @@ export default function useHomeHook() {
         try {
             if (images.length > 0) {
                 const imageUrls: string[] = await Promise.all(imageDatas.map(async (imageData) => {
-                    const data = await uploadImage(imageData);
-                    return data.data;
+                    const imageUrl = await uploadImage(instance, imageData);
+                    return imageUrl.data;
                 }));
                 await instance.post('api/tweet', {
                     ...data,
@@ -65,11 +59,7 @@ export default function useHomeHook() {
     }
 
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const fileUpload = () => {
-        if (inputRef.current) {
-            inputRef.current.click();
-        }
-    }
+    const fileOnClick = fileUpload(inputRef);
 
     const deleteDisplayImage = (mediaStr: string) => {
         const selectImage = images.find(image => image.mediaString === mediaStr);
@@ -98,10 +88,9 @@ export default function useHomeHook() {
         errors,
         onSubmit,
         inputRef,
-        fileUpload,
+        fileOnClick,
         fileInput,
         images,
-        uploadImage,
         deleteDisplayImage
     };
 }
