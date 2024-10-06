@@ -35,8 +35,11 @@ export default function Profile(
                 <h1 className="font-bold text-lg">{profile.displayName ? profile.displayName : profile.name}</h1>
             </div>
             <div>
-                <div className="h-48 bg-slate-400 relative"></div>
-                <div className="ml-3 bg-slate-400 w-28 md:w-32 sm:w-28 rounded-full absolute top-40">
+
+                <div className="h-48 bg-slate-400 relative">
+                    {profile.profileImageUrl && <img className="w-full h-full" src={profile.profileImageUrl} alt="プロフィール画像" />}
+                </div>
+                <div className="ml-3 bg-slate-400 w-28 h-28 md:w-32 md:h-32 rounded-full absolute top-40">
                     {profile.image && <img className="w-full h-full rounded-full" src={profile.image} alt="プロフィール・アイコン" />}
                 </div>
                 <div className="flex justify-end p-4">
