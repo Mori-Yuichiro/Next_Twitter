@@ -2,6 +2,8 @@ import { ProfileType } from "@/app/types/profile";
 import axiosInstance from "@/lib/axiosInstance";
 import { fileRead, fileUpload, uploadImage } from "@/lib/fileUpload";
 import { profilePatchSchema, profilePatchSchemaType } from "@/lib/validations/profile";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { toggleModal } from "@/store/slice/slice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -14,6 +16,10 @@ type ProfileImagesType = {
 export const useModalHook = (profile: ProfileType) => {
     const [profileImageUrl, setProfileImageUrl] = useState<string>(profile.profileImageUrl);
     const [avatarUrl, setAvatarUrl] = useState<string>(profile.image);
+
+    // Reduxの設定
+    const openModal = useAppSelector(state => state.slice.openModal);
+    const dispatch = useAppDispatch();
 
     const { displayName, bio, location, website } = profile;
 
@@ -107,6 +113,7 @@ export const useModalHook = (profile: ProfileType) => {
                 console.log(response);
             }
         }
+        dispatch(toggleModal(!openModal));
     }
 
 
