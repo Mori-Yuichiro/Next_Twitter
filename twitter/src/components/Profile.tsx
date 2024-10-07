@@ -3,9 +3,11 @@
 import { ProfileType } from "@/app/types/profile";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Button from "./Button";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import Link from "next/link";
 import Modal from "./Modal";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { toggleModal } from "@/store/slice/slice";
 
 export default function Profile(
     {
@@ -22,7 +24,14 @@ export default function Profile(
         setTab: Dispatch<SetStateAction<string>>
     },
 ) {
-    const [openModal, setOpenModal] = useState<boolean>(false);
+    const openModal = useAppSelector(state => state.slice.openModal);
+    const dispatch = useAppDispatch();
+
+    const onClickToggleModal = () => {
+        dispatch(toggleModal(!openModal));
+    }
+
+
     return (
         <>
             <div className="flex gap-x-4 items-center p-2 border-b border-black">
@@ -45,7 +54,7 @@ export default function Profile(
                 <div className="flex justify-end p-4">
                     <Button
                         className="rounded-full border border-black px-2 py-1"
-                        onClick={() => setOpenModal(!openModal)}
+                        onClick={onClickToggleModal}
                     >Edit Profile</Button>
                 </div>
             </div>
@@ -87,7 +96,7 @@ export default function Profile(
             </div>
             {openModal && <Modal
                 openModal={openModal}
-                setOpenModal={setOpenModal}
+                setOpenModal={onClickToggleModal}
                 profile={profile}
             />}
         </>

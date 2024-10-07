@@ -1,11 +1,14 @@
 import { ProfileType } from "@/app/types/profile";
 import axiosInstance from "@/lib/axiosInstance";
+import { useAppSelector } from "@/store/hooks";
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react";
 
 export const useProfileHook = (id: string) => {
     const { instance } = axiosInstance();
     const router = useRouter();
+
+    const openModal = useAppSelector(state => state.slice.openModal);
 
     const [profile, setProfile] = useState<ProfileType>({
         id: 0,
@@ -56,7 +59,7 @@ export const useProfileHook = (id: string) => {
             setProfile(response.data);
         }
         fetchData();
-    }, [])
+    }, [openModal])
 
     return {
         router,
