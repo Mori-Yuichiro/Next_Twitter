@@ -3,10 +3,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface State {
     openModal: boolean;
+    openDeleteModal: boolean;
 }
 
 const initialState: State = {
-    openModal: false
+    openModal: false,
+    openDeleteModal: false
 };
 
 const slice = createSlice({
@@ -15,9 +17,12 @@ const slice = createSlice({
     reducers: {
         toggleModal(state, action: PayloadAction<boolean>) {
             state.openModal = action.payload;
-        }
+        },
+        toggleDeleteModal(state, action: PayloadAction<boolean>) {
+            state.openDeleteModal = action.payload;
+        },
     }
 });
 
-export const { toggleModal } = slice.actions;
+export const { toggleModal, toggleDeleteModal } = slice.actions;
 export default slice.reducer;
