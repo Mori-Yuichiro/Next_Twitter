@@ -26,3 +26,23 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(null, { status: 500 });
     }
 }
+
+export async function DELETE(request: NextResponse) {
+    try {
+        const session = await getServerSession(authOptions);
+
+        if (!session) {
+            return NextResponse.json("Unauthorized", { status: 403 });
+        }
+
+        const body = await request.json();
+        const { publicId } = body;
+
+        const result = await cloudinary.uploader.destroy(publicId);
+
+        return NextResponse.json(result);
+    } catch (err) {
+        console.error(err);
+        return NextResponse.json(null, { status: 500 });
+    }
+}

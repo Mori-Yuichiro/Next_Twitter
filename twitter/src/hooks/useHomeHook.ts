@@ -7,11 +7,14 @@ import { useEffect, useRef, useState } from "react";
 import { fileRead, fileUpload, uploadImage } from "@/lib/fileUpload";
 import { ImageType } from "@/app/types/image";
 import { v4 as uuid } from "uuid";
+import { useAppSelector } from "@/store/hooks";
 
 
 export default function useHomeHook() {
     const { instance } = axiosInstance();
     const [tweets, setTweets] = useState<TweetType[]>([]);
+
+    const openDeleteModal = useAppSelector(state => state.slice.openDeleteModal);
 
     const [images, setImages] = useState<ImageType[]>([]);
     const [imageDatas, setImageDatas] = useState<(string | ArrayBuffer | null)[]>([]);
@@ -79,7 +82,7 @@ export default function useHomeHook() {
             }
         }
         fetchData();
-    }, [images])
+    }, [images, openDeleteModal])
 
     return {
         tweets,
