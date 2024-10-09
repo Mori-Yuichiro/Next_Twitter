@@ -1,32 +1,24 @@
+import { CommentType } from "@/app/types/comment";
 import { TweetType } from "@/app/types/tweet";
+import { fields } from "@/consts/field";
 import axiosInstance from "@/lib/axiosInstance";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function useTweetDetailHook(id: string) {
-    const [tweetDetail, setTweetDetail] = useState<TweetType>({
+    const { user, tweet } = fields;
+
+    const [tweetDetail, setTweetDetail] = useState<TweetType>(tweet);
+
+    const [comments, setComments] = useState<CommentType[]>([{
         id: 0,
-        content: "",
+        comment: "",
         createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
         userId: 1,
-        imageUrls: [],
-        user: {
-            id: 0,
-            name: "",
-            email: "",
-            emailVerified: "",
-            image: "",
-            displayName: "",
-            phoneNumber: "",
-            bio: "",
-            location: "",
-            website: "",
-            birthday: "",
-            createdAt: "",
-            updatedAt: ""
-        }
-    });
+        tweetId: 1,
+        user,
+        tweet
+    }]);
 
     const { instance } = axiosInstance();
 
@@ -37,14 +29,22 @@ export default function useTweetDetailHook(id: string) {
         return response.data;
     }
 
+    const getComment = async () => {
+        const response = await instance.get("/api/comment");
+        return response.data;
+    }
+
     useEffect(() => {
         async function fetchData() {
-            const data: TweetType = await getTweetDetail();
-            setTweetDetail(data);
+            const tweetData: TweetType = await getTweetDetail();
+            setTweetDetail(tweetData);
+
+            const commentData: CommentType[] = await getComment();
+            setComments(commentData);
         }
 
         fetchData();
     }, [])
 
-    return { tweetDetail, router };
+    return { tweetDetail, router, comments };
 }
