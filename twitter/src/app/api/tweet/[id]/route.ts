@@ -1,6 +1,5 @@
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { error } from "console";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -20,7 +19,15 @@ export async function GET(
                 id: Number(params.id)
             },
             include: {
-                user: true
+                user: true,
+                comments: {
+                    include: {
+                        user: true
+                    },
+                    orderBy: {
+                        createdAt: "desc"
+                    }
+                }
             }
         });
 

@@ -7,32 +7,8 @@ import { z } from "zod";
 
 const commentPatchSchema = z.object({
     comment: z.string(),
-    tweetId: z.string()
+    tweetId: z.number()
 })
-
-export async function GET(req: NextRequest) {
-    try {
-        const session = await getServerSession(authOptions);
-
-        if (!session) {
-            return NextResponse.json("Unauthorized", { status: 403 });
-        }
-
-        const comments = await db.comment.findMany({
-            include: {
-                user: true
-            },
-            orderBy: {
-                createdAt: "desc"
-            }
-        });
-
-        return NextResponse.json(comments);
-
-    } catch {
-        return NextResponse.json(null, { status: 500 });
-    }
-}
 
 export async function POST(req: NextRequest) {
     try {
@@ -53,7 +29,7 @@ export async function POST(req: NextRequest) {
             data: {
                 comment,
                 userId: Number(user.id),
-                tweetId: Number(tweetId),
+                tweetId: tweetId,
                 createdAt: now
             },
             select: {

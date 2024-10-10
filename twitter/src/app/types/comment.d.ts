@@ -8,5 +8,5 @@ export type CommentType = {
     userId: number;
     tweetId: number;
     user: User;
-    tweet: TweetType;
+    // tweet: TweetType;
 }

@@ -1,3 +1,4 @@
+import { CommentType } from "./comment";
 import { User } from "./user";
 
 export type TweetType = {
@@ -8,4 +9,5 @@ export type TweetType = {
     userId: number;
     imageUrls: string[];
     user: User;
+    comments: CommentType[];
 }

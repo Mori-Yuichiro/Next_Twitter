@@ -1,36 +1,36 @@
-import { CommentType } from "@/app/types/comment";
 import { TweetType } from "@/app/types/tweet";
-import { fields } from "@/consts/field";
 import axiosInstance from "@/lib/axiosInstance";
+import { commentPatchSchema, commentPatchSchemaType } from "@/lib/validations/comment";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function useTweetDetailHook(id: string) {
-    const { user, tweet } = fields;
-
-    const [tweetDetail, setTweetDetail] = useState<TweetType>(tweet);
-
-    const [comments, setComments] = useState<CommentType[]>([{
-        id: 0,
-        comment: "",
-        createdAt: new Date().toISOString(),
-        userId: 1,
-        tweetId: 1,
-        user,
-        tweet
-    }]);
+    const [tweetDetail, setTweetDetail] = useState<TweetType | null>(null);
 
     const { instance } = axiosInstance();
 
     const router = useRouter();
 
-    const getTweetDetail = async () => {
-        const response = await instance.get(`/api/tweet/${id}`);
-        return response.data;
+    const { register, handleSubmit, formState: { errors } } = useForm<commentPatchSchemaType>({
+        resolver: zodResolver(commentPatchSchema)
+    });
+
+    async function onSubmit(data: commentPatchSchemaType) {
+        try {
+            const result = await instance.post("/api/comment", {
+                ...data,
+                tweetId: tweetDetail?.id
+            });
+            console.log(result);
+        } catch (err) {
+            console.error(`Error: ${err}`);
+        }
     }
 
-    const getComment = async () => {
-        const response = await instance.get("/api/comment");
+    const getTweetDetail = async () => {
+        const response = await instance.get(`/api/tweet/${id}`);
         return response.data;
     }
 
@@ -38,13 +38,17 @@ export default function useTweetDetailHook(id: string) {
         async function fetchData() {
             const tweetData: TweetType = await getTweetDetail();
             setTweetDetail(tweetData);
-
-            const commentData: CommentType[] = await getComment();
-            setComments(commentData);
         }
 
         fetchData();
     }, [])
 
-    return { tweetDetail, router, comments };
+    return {
+        tweetDetail,
+        router,
+        register,
+        handleSubmit,
+        errors,
+        onSubmit,
+    };
 }

@@ -93,7 +93,7 @@ model Tweet {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  comment Comment[]
+  comments Comment[]
 
   @@map(name: "tweets")
 }
