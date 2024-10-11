@@ -1,10 +1,14 @@
 import useCommentModalHook from "@/hooks/comment/useCommentModalHook";
 import Button from "./Button";
 
-export default function CommentModal() {
+export default function CommentModal({ tweetId }: { tweetId: number }) {
     const {
-        setOpenCommentModal
-    } = useCommentModalHook();
+        setOpenCommentModal,
+        register,
+        handleSubmit,
+        errors,
+        onSubmit
+    } = useCommentModalHook(tweetId);
 
     return (
         <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
@@ -21,17 +25,20 @@ export default function CommentModal() {
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16"><path fill="currentColor" d="M7.293 8L3.146 3.854a.5.5 0 1 1 .708-.708L8 7.293l4.146-4.147a.5.5 0 0 1 .708.708L8.707 8l4.147 4.146a.5.5 0 0 1-.708.708L8 8.707l-4.146 4.147a.5.5 0 0 1-.708-.708z" /></svg>
                                 <h1 className="text-lg">Add Comment</h1>
                             </div>
+                            {errors.comment && <p className="text-red-500">{errors.comment.message}</p>}
                             <div className="flex flex-col gap-y-3">
                                 <input
                                     id="comment"
                                     className="border border-slate-400 rounded-sm p-3"
                                     type="text"
                                     placeholder="Add another post"
+                                    {...register("comment")}
                                 />
                             </div>
                             <div className="flex justify-end">
                                 <Button
                                     className="border rounded-full px-3"
+                                    onClick={handleSubmit(onSubmit)}
                                 >Add</Button>
                             </div>
                         </div>

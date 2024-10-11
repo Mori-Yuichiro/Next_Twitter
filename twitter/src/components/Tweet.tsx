@@ -82,7 +82,7 @@ export default function Tweet({ tweet }: { tweet: TweetType }) {
                 </div>
                 {openMenu && <Hamburger tweet={tweet} />}
             </div>
-            {openCommentModal && <CommentModal />}
+            {openCommentModal && <CommentModal tweetId={tweet.id} />}
         </>
     );
 }
