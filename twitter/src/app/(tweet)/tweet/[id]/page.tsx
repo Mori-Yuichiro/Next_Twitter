@@ -34,6 +34,11 @@ export default function TweetDetailPage(
                     <div className="border-b border-black">
                         <Tweet tweet={tweetDetail} />
                     </div>
+                    {errors.comment?.message &&
+                        <div className="px-3 py-1">
+                            <p className="text-red-500">{errors.comment.message}</p>
+                        </div>
+                    }
                     <div className="flex p-4 gap-x-3">
                         <div className="rounded-full bg-slate-400 w-10 h-10">
                             {tweetDetail.user.image && <img
