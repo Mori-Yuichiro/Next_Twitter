@@ -26,6 +26,11 @@ export async function GET(
                     orderBy: {
                         createdAt: 'desc'
                     }
+                },
+                comments: {
+                    include: {
+                        user: true
+                    }
                 }
             }
         });
