@@ -4,7 +4,6 @@ import { ProfileType } from "@/app/types/profile";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Button from "./Button";
 import { Dispatch, SetStateAction } from "react";
-import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { toggleModal } from "@/store/slice/slice";
 import Modal from "./modal/Modal";
@@ -68,27 +67,43 @@ export default function Profile(
                 </div>
             </div>
             <ul className="list-reset flex border-b border-black overflow-x-auto">
-                <li className="-mb-px mr-1 w-1/2 mx-auto border-black text-center hover:bg-slate-300">
-                    <Link
-                        className={`inline-block rounded-t py-2 px-4 text-blue-dark font-semibold ${tab === "posts" && "border-b-8 border-blue-300"}`}
-                        href={`/profile/${profile.id}`}
-                        onClick={() => setTab("posts")}
-                    >Posts</Link>
+                <li
+                    className="-mb-px mr-1 w-1/2 mx-auto border-black text-center cursor-pointer hover:bg-slate-300"
+                    onClick={() => setTab("posts")}
+                >
+                    <span className={`inline-block rounded-t py-2 px-4 text-blue-dark font-semibold ${tab === "posts" && "border-b-8 border-blue-300"}`}
+                    >Posts</span>
                 </li>
-                <li className="mr-1 w-1/2 text-center hover:bg-slate-300">
-                    <a className="inline-block py-2 px-4 text-blue hover:text-blue-darker font-semibold" href="#">Replies</a>
+                <li
+                    className="mr-1 w-1/2 text-center cursor-pointer hover:bg-slate-300"
+                    onClick={() => setTab("comments")}
+                >
+                    <span className={`inline-block py-2 px-4 text-blue hover:text-blue-darker font-semibold ${tab === "comments" && "border-b-8 border-blue-300"}`}
+                    >Comments</span>
                 </li>
-                <li className="mr-1 w-1/2 text-center hover:bg-slate-300">
-                    <a className="inline-block py-2 px-4 text-blue hover:text-blue-darker font-semibold" href="#">Highlights</a>
+                <li
+                    className="mr-1 w-1/2 text-center cursor-pointer hover:bg-slate-300"
+                    onClick={() => setTab("highlights")}
+                >
+                    <span className={`inline-block py-2 px-4 text-blue hover:text-blue-darker font-semibold ${tab === "highlights" && "border-b-8 border-blue-300"}`}>Highlights</span>
                 </li>
-                <li className="mr-1 w-1/2 text-center hover:bg-slate-300">
-                    <a className="inline-block py-2 px-4 text-blue hover:text-blue-darker font-semibold" href="#">Articles</a>
+                <li
+                    className="mr-1 w-1/2 text-center cursor-pointer hover:bg-slate-300"
+                    onClick={() => setTab("articles")}
+                >
+                    <span className={`inline-block py-2 px-4 text-blue hover:text-blue-darker font-semibold ${tab === "articles" && "border-b-8 border-blue-300"}`}>Articles</span>
                 </li>
-                <li className="mr-1 w-1/2 text-center hover:bg-slate-300">
-                    <a className="inline-block py-2 px-4 text-blue hover:text-blue-darker font-semibold" href="#">Medias</a>
+                <li
+                    className="mr-1 w-1/2 text-center cursor-pointer hover:bg-slate-300"
+                    onClick={() => setTab("medias")}
+                >
+                    <span className={`inline-block py-2 px-4 text-blue hover:text-blue-darker font-semibold ${tab === "medias" && "border-b-8 border-blue-300"}`}>Medias</span>
                 </li>
-                <li className="mr-1 w-1/2 text-center hover:bg-slate-300">
-                    <a className="inline-block py-2 px-4 text-blue hover:text-blue-darker font-semibold" href="#">Likes</a>
+                <li
+                    className="mr-1 w-1/2 text-center cursor-pointer hover:bg-slate-300"
+                    onClick={() => setTab("likes")}
+                >
+                    <span className={`inline-block py-2 px-4 text-blue hover:text-blue-darker font-semibold ${tab === "likes" && "border-b-8 border-blue-300"}`}>Likes</span>
                 </li>
             </ul>
             <div>
