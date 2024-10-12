@@ -5,9 +5,9 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import Button from "./Button";
 import { Dispatch, SetStateAction } from "react";
 import Link from "next/link";
-import Modal from "./Modal";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { toggleModal } from "@/store/slice/slice";
+import Modal from "./modal/Modal";
 
 export default function Profile(
     {

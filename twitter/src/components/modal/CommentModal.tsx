@@ -1,5 +1,5 @@
 import useCommentModalHook from "@/hooks/comment/useCommentModalHook";
-import Button from "./Button";
+import Button from "../Button";
 
 export default function CommentModal({ tweetId }: { tweetId: number }) {
     const {
