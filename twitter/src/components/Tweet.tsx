@@ -4,7 +4,7 @@ import { TweetType } from "@/app/types/tweet";
 import useTweetHook from "@/hooks/tweet/useTweetHook";
 import Link from "next/link";
 import Hamburger from "./Hamburger";
-import CommentModal from "./CommentModal";
+import CommentModal from "./modal/CommentModal";
 
 export default function Tweet({ tweet }: { tweet: TweetType }) {
     const {

@@ -1,9 +1,9 @@
 "use client"
 
 import { Dispatch, SetStateAction } from "react";
-import Button from "./Button";
 import { ProfileType } from "@/app/types/profile";
 import { useModalHook } from "@/hooks/profile/useModalHook";
+import Button from "../Button";
 
 
 export default function Modal({
