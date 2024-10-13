@@ -12,7 +12,10 @@ export default function Tweet({ tweet }: { tweet: TweetType }) {
         openMenu,
         setOpenMenu,
         openCommentModal,
-        setOpenCommentModal
+        setOpenCommentModal,
+        onClickRetweet,
+        onClickDeleteRetweet,
+        checkRetweet
     } = useTweetHook(tweet);
 
     return (
@@ -70,9 +73,23 @@ export default function Tweet({ tweet }: { tweet: TweetType }) {
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 1024 1024"><path fill="currentColor" d="M512 896q-66 0-134-16q-34 40-69.5 69.5t-60 43.5t-47.5 21.5t-30.5 8.5t-10.5 1q26-57 30-124.5T176 786Q94 723 47 635T0 448q0-91 40.5-174t109-143T313 35.5T512 0t199 35.5T874.5 131t109 143t40.5 174t-40.5 174t-109 143T711 860.5T512 896z" /></svg>
                     </div>
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16"><path fill="currentColor" d="M2 1h12v5h2l-3 3l-3-3h2V3H4v2H2zm12 13H2V9H0l3-3l3 3H4v3h8v-2h2z" /></svg>
-                    </div>
+                    {checkRetweet ? (
+                        <div
+                            className="cursor-pointer flex items-center gap-x-2"
+                            onClick={onClickDeleteRetweet}
+                        >
+                            <svg className="text-green-300" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16"><path fill="currentColor" d="M2 1h12v5h2l-3 3l-3-3h2V3H4v2H2zm12 13H2V9H0l3-3l3 3H4v3h8v-2h2z" /></svg>
+                            <span>{tweet.retweets.length}</span>
+                        </div>
+                    ) : (
+                        <div
+                            className="cursor-pointer flex items-center gap-x-2"
+                            onClick={onClickRetweet}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16"><path fill="currentColor" d="M2 1h12v5h2l-3 3l-3-3h2V3H4v2H2zm12 13H2V9H0l3-3l3 3H4v3h8v-2h2z" /></svg>
+                            <span>{tweet.retweets.length}</span>
+                        </div>
+                    )}
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12.001 3.818a6.228 6.228 0 0 1 8.51 9.087l-5.224 5.225h-.001L12 21.415l-7.28-7.279l-1.23-1.232c-.001 0 0 0 0 0A6.228 6.228 0 0 1 12 3.818Zm3.285 11.485l3.811-3.812a4.228 4.228 0 1 0-5.98-5.98L12 6.627L10.883 5.51a4.228 4.228 0 1 0-5.98 5.98l1.232 1.232L12 18.587l3.285-3.285Z" /></svg>
                     </div>

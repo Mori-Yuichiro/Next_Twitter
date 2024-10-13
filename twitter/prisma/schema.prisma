@@ -69,6 +69,7 @@ model User {
   sessions Session[]
   tweets   Tweet[]
   comments Comment[]
+  retweets Retweet[]
 
   @@map(name: "users")
 }
@@ -94,6 +95,7 @@ model Tweet {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   comments Comment[]
+  retweets Retweet[]
 
   @@map(name: "tweets")
 }
@@ -109,4 +111,18 @@ model Comment {
   tweet Tweet @relation(fields: [tweetId], references: [id], onDelete: Cascade)
 
   @@map(name: "comments")
+}
+
+model Retweet {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map(name: "user_id")
+  tweetId   Int      @map(name: "tweet_id")
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tweet Tweet @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tweetId])
+  @@map(name: "retweets")
 }
