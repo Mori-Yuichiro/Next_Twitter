@@ -21,7 +21,12 @@ export async function GET(
             include: {
                 tweets: {
                     include: {
-                        user: true
+                        user: true,
+                        retweets: {
+                            orderBy: {
+                                createdAt: "desc"
+                            }
+                        }
                     },
                     orderBy: {
                         createdAt: 'desc'
