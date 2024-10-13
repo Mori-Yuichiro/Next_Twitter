@@ -5,7 +5,6 @@ import Loading from "@/components/Loading";
 import Profile from "@/components/Profile";
 import Tweet from "@/components/Tweet";
 import { useProfileHook } from "@/hooks/profile/useProfileHook";
-import { comment } from "postcss";
 
 export default function ProfilePage(
     { params }: { params: { user_id: string } }

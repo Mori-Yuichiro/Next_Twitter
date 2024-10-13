@@ -1,6 +1,7 @@
 import { User } from "@/app/types/user";
 import { TweetType } from "./tweet";
 import { CommentType } from "./comment";
+import { RetweetType } from "./retweet";
 
 
 // type ProfileTweetType = Omit<TweetType, "user">;
@@ -8,4 +9,5 @@ import { CommentType } from "./comment";
 // export type ProfileType = User & { tweets: ProfileTweetType[] }
 export type ProfileType = User &
 { tweets: TweetType[] } &
-{ comments: CommentType[] }
+{ comments: CommentType[] } &
+{ retweets: RetweetType[] }
