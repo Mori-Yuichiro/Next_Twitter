@@ -1,12 +1,14 @@
 "use client"
 
 import Button from "@/components/Button";
+import Loading from "@/components/Loading";
 import Tweet from "@/components/Tweet";
 import useHomeHook from "@/hooks/useHomeHook";
 
 
 export default function HomePage() {
-    const { tweets,
+    const {
+        tweets,
         register,
         handleSubmit,
         errors,
@@ -20,70 +22,74 @@ export default function HomePage() {
 
     return (
         <div>
-            <ul className="list-reset flex border-b border-black sticky">
-                <li className="-mb-px mr-1 w-1/2 mx-auto border-r border-black text-center">
-                    <a className="inline-block rounded-t py-2 px-4 text-blue-dark font-semibold" href="#">For You</a>
-                </li>
-                <li className="mr-1 w-1/2 text-center">
-                    <a className="inline-block py-2 px-4 text-blue hover:text-blue-darker font-semibold" href="#">Following</a>
-                </li>
-            </ul>
-            <div className="border-b border-black p-3">
-                {errors && <p className="text-red-500">{errors.content?.message}</p>}
-                <input
-                    id="content"
-                    type="text"
-                    placeholder="What's happening?!"
-                    className="p-3 rounded-full w-2/3"
-                    {...register("content")}
-                />
-                <div className="grid grid-cols-2 w-96 gap-x-5 my-5">
-                    {images &&
-                        images.map(image => {
-                            return (
-                                <div key={image.mediaString} className="relative">
-                                    <img
-                                        src={image.data as string}
-                                        alt={image.fileName}
-                                    />
-                                    <div
-                                        className="absolute top-0 right-0 cursor-pointer"
-                                        onClick={() => deleteDisplayImage(image.mediaString)}
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4c-4.419 0-8 3.582-8 8s3.581 8 8 8s8-3.582 8-8s-3.581-8-8-8zm3.707 10.293a.999.999 0 1 1-1.414 1.414L12 13.414l-2.293 2.293a.997.997 0 0 1-1.414 0a.999.999 0 0 1 0-1.414L10.586 12L8.293 9.707a.999.999 0 1 1 1.414-1.414L12 10.586l2.293-2.293a.999.999 0 1 1 1.414 1.414L13.414 12l2.293 2.293z" /></svg>
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
-                <div className="flex justify-between">
-                    <input
-                        type="file"
-                        multiple
-                        className="hidden"
-                        ref={inputRef}
-                        onChange={fileInput}
-                    />
-                    <button onClick={fileOnClick}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 56 56"><path fill="currentColor" d="M7.715 49.574h40.57c4.899 0 7.36-2.437 7.36-7.265V13.69c0-4.828-2.461-7.265-7.36-7.265H7.715C2.84 6.426.355 8.84.355 13.69v28.62c0 4.851 2.485 7.265 7.36 7.265m31.57-21.633c-1.055-.937-2.25-1.43-3.515-1.43c-1.313 0-2.462.446-3.54 1.407l-10.593 9.469l-4.336-3.938c-.985-.867-2.04-1.336-3.164-1.336c-1.032 0-2.04.446-3 1.313L4.129 39.73V13.88c0-2.438 1.312-3.68 3.656-3.68h40.43c2.32 0 3.656 1.242 3.656 3.68v25.875Zm-21.469.258c3.024 0 5.508-2.484 5.508-5.531c0-3.023-2.484-5.531-5.508-5.531c-3.046 0-5.53 2.508-5.53 5.531a5.541 5.541 0 0 0 5.53 5.531" /></svg>
-                    </button>
-                    <Button
-                        className="bg-cyan-400 rounded-full w-20 p-1"
-                        onClick={handleSubmit(onSubmit)}
-                    >Post</Button>
-                </div>
-            </div>
-            {
-                tweets.map(tweet => (
-                    <div
-                        key={tweet.id}
-                        className="border-b border-black"
-                    >
-                        <Tweet tweet={tweet} />
+            {tweets ? (
+                <>
+                    <ul className="list-reset flex border-b border-black sticky">
+                        <li className="-mb-px mr-1 w-1/2 mx-auto border-r border-black text-center">
+                            <a className="inline-block rounded-t py-2 px-4 text-blue-dark font-semibold" href="#">For You</a>
+                        </li>
+                        <li className="mr-1 w-1/2 text-center">
+                            <a className="inline-block py-2 px-4 text-blue hover:text-blue-darker font-semibold" href="#">Following</a>
+                        </li>
+                    </ul>
+                    <div className="border-b border-black p-3">
+                        {errors && <p className="text-red-500">{errors.content?.message}</p>}
+                        <input
+                            id="content"
+                            type="text"
+                            placeholder="What's happening?!"
+                            className="p-3 rounded-full w-2/3"
+                            {...register("content")}
+                        />
+                        <div className="grid grid-cols-2 w-96 gap-x-5 my-5">
+                            {images &&
+                                images.map(image => {
+                                    return (
+                                        <div key={image.mediaString} className="relative">
+                                            <img
+                                                src={image.data as string}
+                                                alt={image.fileName}
+                                            />
+                                            <div
+                                                className="absolute top-0 right-0 cursor-pointer"
+                                                onClick={() => deleteDisplayImage(image.mediaString)}
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4c-4.419 0-8 3.582-8 8s3.581 8 8 8s8-3.582 8-8s-3.581-8-8-8zm3.707 10.293a.999.999 0 1 1-1.414 1.414L12 13.414l-2.293 2.293a.997.997 0 0 1-1.414 0a.999.999 0 0 1 0-1.414L10.586 12L8.293 9.707a.999.999 0 1 1 1.414-1.414L12 10.586l2.293-2.293a.999.999 0 1 1 1.414 1.414L13.414 12l2.293 2.293z" /></svg>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                        <div className="flex justify-between">
+                            <input
+                                type="file"
+                                multiple
+                                className="hidden"
+                                ref={inputRef}
+                                onChange={fileInput}
+                            />
+                            <button onClick={fileOnClick}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 56 56"><path fill="currentColor" d="M7.715 49.574h40.57c4.899 0 7.36-2.437 7.36-7.265V13.69c0-4.828-2.461-7.265-7.36-7.265H7.715C2.84 6.426.355 8.84.355 13.69v28.62c0 4.851 2.485 7.265 7.36 7.265m31.57-21.633c-1.055-.937-2.25-1.43-3.515-1.43c-1.313 0-2.462.446-3.54 1.407l-10.593 9.469l-4.336-3.938c-.985-.867-2.04-1.336-3.164-1.336c-1.032 0-2.04.446-3 1.313L4.129 39.73V13.88c0-2.438 1.312-3.68 3.656-3.68h40.43c2.32 0 3.656 1.242 3.656 3.68v25.875Zm-21.469.258c3.024 0 5.508-2.484 5.508-5.531c0-3.023-2.484-5.531-5.508-5.531c-3.046 0-5.53 2.508-5.53 5.531a5.541 5.541 0 0 0 5.53 5.531" /></svg>
+                            </button>
+                            <Button
+                                className="bg-cyan-400 rounded-full w-20 p-1"
+                                onClick={handleSubmit(onSubmit)}
+                            >Post</Button>
+                        </div>
                     </div>
-                ))
-            }
+                    {
+                        tweets.map(tweet => (
+                            <div
+                                key={tweet.id}
+                                className="border-b border-black"
+                            >
+                                <Tweet tweet={tweet} />
+                            </div>
+                        ))
+                    }
+                </>
+            ) : <Loading />}
         </div >
     );
 }

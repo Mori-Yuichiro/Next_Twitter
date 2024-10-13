@@ -19,7 +19,8 @@ export async function GET(req: NextRequest) {
 
         const tweets = await db.tweet.findMany({
             include: {
-                user: true
+                user: true,
+                retweets: true
             },
             orderBy: {
                 updatedAt: "desc"

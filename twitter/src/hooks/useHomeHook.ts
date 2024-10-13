@@ -7,14 +7,17 @@ import { useEffect, useRef, useState } from "react";
 import { fileRead, fileUpload, uploadImage } from "@/lib/fileUpload";
 import { ImageType } from "@/app/types/image";
 import { v4 as uuid } from "uuid";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { toggleReload } from "@/store/slice/slice";
 
 
 export default function useHomeHook() {
     const { instance } = axiosInstance();
-    const [tweets, setTweets] = useState<TweetType[]>([]);
+    const [tweets, setTweets] = useState<TweetType[] | null>(null);
 
     const openDeleteModal = useAppSelector(state => state.slice.openDeleteModal);
+    const reload = useAppSelector(state => state.slice.reload);
+    const dispatch = useAppDispatch();
 
     const [images, setImages] = useState<ImageType[]>([]);
     const [imageDatas, setImageDatas] = useState<(string | ArrayBuffer | null)[]>([]);
@@ -37,7 +40,7 @@ export default function useHomeHook() {
         setImages([...images, ...selectedImages]);
     }
 
-    const { register, handleSubmit, formState: { errors } } = useForm<tweetPatchSchemaType>({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<tweetPatchSchemaType>({
         resolver: zodResolver(tweetPatchSchema)
     });
 
@@ -55,7 +58,8 @@ export default function useHomeHook() {
             } else {
                 await instance.post('api/tweet', data);
             }
-            window.location.reload();
+            dispatch(toggleReload(!reload));
+            reset({ content: "" });
         } catch (error) {
             console.error(`Error: ${error}`);
         }
@@ -82,7 +86,7 @@ export default function useHomeHook() {
             }
         }
         fetchData();
-    }, [images, openDeleteModal])
+    }, [images, openDeleteModal, reload])
 
     return {
         tweets,

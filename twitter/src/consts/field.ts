@@ -33,7 +33,8 @@ const defaultTweet: TweetType = {
     userId: 0,
     imageUrls: [],
     user: defaultUser,
-    comments: []
+    comments: [],
+    retweets: []
 };
 
 const defaultComment: CommentType = {

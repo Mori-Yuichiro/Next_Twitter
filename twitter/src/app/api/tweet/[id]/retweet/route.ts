@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
+export async function POST(
     req: NextRequest,
     { params }: { params: { id: string } }
 ) {
@@ -14,26 +14,21 @@ export async function GET(
             return NextResponse.json("Unauthorized", { status: 403 });
         }
 
-        const tweet = await db.tweet.findFirst({
-            where: {
-                id: Number(params.id)
+        const { user } = session;
+        const { id } = params;
+
+        const retweet = await db.retweet.create({
+            data: {
+                userId: Number(user.id),
+                tweetId: Number(id)
             },
-            include: {
-                user: true,
-                comments: {
-                    include: {
-                        user: true
-                    },
-                    orderBy: {
-                        createdAt: "desc"
-                    }
-                },
-                retweets: true
+            select: {
+                id: true
             }
         });
-
-        return NextResponse.json(tweet);
+        return NextResponse.json(retweet);
     } catch (err) {
+        console.error("retweet error: " + err);
         return NextResponse.json(null, { status: 500 });
     }
 }
@@ -49,17 +44,19 @@ export async function DELETE(
             return NextResponse.json("Unauthorized", { status: 403 });
         }
 
+        const { user } = session;
         const { id } = params;
 
-        const result = await db.tweet.delete({
+        const retweet = await db.retweet.deleteMany({
             where: {
-                id: Number(id)
+                userId: Number(user.id),
+                tweetId: Number(id)
             }
         });
 
-        return NextResponse.json(result);
+        return NextResponse.json(retweet, { status: 200 });
     } catch (err) {
-        console.error(`Error: ${err}`);
-        return NextResponse.json(null, { status: 500 })
+        console.error("retweet delte error: " + err);
+        return NextResponse.json(null, { status: 500 });
     }
 }
