@@ -1,18 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { UserType } from "@/app/types/user";
 
+type CurrentUserType = UserType | undefined;
 
 interface State {
     openModal: boolean;
     openDeleteModal: boolean;
     reload: boolean;
     openCommentModal: boolean;
+    currentUser: CurrentUserType;
 }
 
 const initialState: State = {
     openModal: false,
     openDeleteModal: false,
     reload: false,
-    openCommentModal: false
+    openCommentModal: false,
+    currentUser: undefined
 };
 
 const slice = createSlice({
@@ -30,9 +34,15 @@ const slice = createSlice({
         },
         toggleCommentModal(state, action: PayloadAction<boolean>) {
             state.openCommentModal = action.payload;
+        },
+        changeCurrentUser(
+            state,
+            action: PayloadAction<UserType | undefined>
+        ) {
+            state.currentUser = action.payload;
         }
     }
 });
 
-export const { toggleModal, toggleDeleteModal, toggleReload, toggleCommentModal } = slice.actions;
+export const { toggleModal, toggleDeleteModal, toggleReload, toggleCommentModal, changeCurrentUser } = slice.actions;
 export default slice.reducer;

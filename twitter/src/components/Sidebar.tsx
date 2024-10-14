@@ -1,9 +1,11 @@
+"use client"
+
 import Link from "next/link";
 import Button from "./Button";
 import useSidebarHook from "../hooks/useSidebarHook";
 
-export default async function Sidebar() {
-    const { ITEM_LIST, user } = await useSidebarHook();
+export default function Sidebar() {
+    const { ITEM_LIST, user } = useSidebarHook();
 
     return (
         <aside className="flex flex-col gap-3 h-screen max-lg:w-20 w-60 border-r border-black p-4 fixed max-sm:hidden">
@@ -38,7 +40,11 @@ export default async function Sidebar() {
                 <div className="bg-slate-400 w-8 h-8 rounded-full">
                     {user && <img className="w-full h-full rounded-full" src={user.image!} alt="icon" />}
                 </div>
-                <p>{user?.name}</p>
+                {user?.displayName ? (
+                    <p>{user?.displayName}</p>
+                ) : (
+                    <p>{user?.name}</p>
+                )}
             </div>
         </aside >
     );

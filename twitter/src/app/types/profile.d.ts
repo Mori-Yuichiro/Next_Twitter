@@ -1,4 +1,4 @@
-import { User } from "@/app/types/user";
+import { UserType } from "@/app/types/user";
 import { TweetType } from "./tweet";
 import { CommentType } from "./comment";
 import { RetweetType } from "./retweet";

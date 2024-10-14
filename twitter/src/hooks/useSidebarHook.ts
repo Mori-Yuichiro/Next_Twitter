@@ -1,4 +1,8 @@
-import { getCurrentUser } from "../lib/session";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useEffect } from "react";
+import { changeCurrentUser } from "@/store/slice/slice";
+import axiosInstance from "@/lib/axiosInstance";
+import { UserType } from "@/app/types/user";
 
 type ItemListType = {
     label: string;
@@ -7,8 +11,12 @@ type ItemListType = {
     href: string;
 };
 
-export default async function useSidebarHook() {
-    const user = await getCurrentUser();
+export default function useSidebarHook() {
+    const user = useAppSelector(state => state.slice.currentUser);
+
+    const { instance } = axiosInstance();
+
+    const dispatch = useAppDispatch();
 
     const ITEM_LIST: ItemListType[] = [
         {
@@ -84,6 +92,16 @@ export default async function useSidebarHook() {
             href: '/more'
         }
     ];
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const response = (await instance.get("/api/current-user"));
+            const userProfile = response.data;
+
+            dispatch(changeCurrentUser(userProfile));
+        }
+        fetchUser();
+    }, [])
 
     return {
         ITEM_LIST,

@@ -15,7 +15,10 @@ export default function Tweet({ tweet }: { tweet: TweetType }) {
         setOpenCommentModal,
         onClickRetweet,
         onClickDeleteRetweet,
-        checkRetweet
+        checkRetweet,
+        onClickFavorite,
+        onClickDeleteFavorite,
+        checkFavorite
     } = useTweetHook(tweet);
 
     return (
@@ -90,9 +93,23 @@ export default function Tweet({ tweet }: { tweet: TweetType }) {
                             <span>{tweet.retweets.length}</span>
                         </div>
                     )}
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12.001 3.818a6.228 6.228 0 0 1 8.51 9.087l-5.224 5.225h-.001L12 21.415l-7.28-7.279l-1.23-1.232c-.001 0 0 0 0 0A6.228 6.228 0 0 1 12 3.818Zm3.285 11.485l3.811-3.812a4.228 4.228 0 1 0-5.98-5.98L12 6.627L10.883 5.51a4.228 4.228 0 1 0-5.98 5.98l1.232 1.232L12 18.587l3.285-3.285Z" /></svg>
-                    </div>
+                    {checkFavorite ? (
+                        <div
+                            className="cursor-pointer text-red-400 flex items-center gap-x-2"
+                            onClick={onClickDeleteFavorite}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20"><path fill="currentColor" d="m10 3.22l-.61-.6a5.5 5.5 0 0 0-7.78 7.77L10 18.78l8.39-8.4a5.5 5.5 0 0 0-7.78-7.77l-.61.61z" /></svg>
+                            <span>{tweet.favorites.length}</span>
+                        </div>
+                    ) : (
+                        <div
+                            className="cursor-pointer flex items-center gap-x-2"
+                            onClick={onClickFavorite}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12.001 3.818a6.228 6.228 0 0 1 8.51 9.087l-5.224 5.225h-.001L12 21.415l-7.28-7.279l-1.23-1.232c-.001 0 0 0 0 0A6.228 6.228 0 0 1 12 3.818Zm3.285 11.485l3.811-3.812a4.228 4.228 0 1 0-5.98-5.98L12 6.627L10.883 5.51a4.228 4.228 0 1 0-5.98 5.98l1.232 1.232L12 18.587l3.285-3.285Z" /></svg>
+                            <span>{tweet.favorites.length}</span>
+                        </div>
+                    )}
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 56 56"><path fill="currentColor" d="M12.016 53.16c1.218 0 1.922-.61 4.289-2.976L27.672 38.84c.117-.094.234-.188.328-.188c.117 0 .21.094.328.188l11.39 11.344c2.321 2.32 3.071 2.976 4.266 2.976c1.477 0 2.602-.89 2.602-3.023V10.176c0-4.875-2.414-7.336-7.266-7.336H16.68c-4.828 0-7.266 2.46-7.266 7.336v39.96c0 2.134 1.149 3.024 2.602 3.024m1.757-5.695c-.328.328-.585.234-.585-.211V10.246c0-2.344 1.265-3.633 3.703-3.633h22.242c2.437 0 3.68 1.29 3.68 3.633v37.008c0 .445-.258.516-.587.21L29.173 34.552c-.399-.422-.82-.54-1.172-.54c-.328 0-.75.118-1.172.54Z" /></svg>
                     </div>
