@@ -44,6 +44,15 @@ export default function ProfilePage(
                                 </div>
                             ))}
                         </div>
+                    ) : tab === "likes" ? (
+                        <div>
+                            {profile.favorites.map(favorite => (
+                                <div key={`profile-like-${favorite.id}`}
+                                    className="border-black border-b">
+                                    <Tweet tweet={favorite.tweet} />
+                                </div>
+                            ))}
+                        </div>
                     ) : <></>}
                 </Profile> :
                 <Loading />

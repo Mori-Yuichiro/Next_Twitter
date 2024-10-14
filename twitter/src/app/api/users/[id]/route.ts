@@ -26,6 +26,11 @@ export async function GET(
                             orderBy: {
                                 createdAt: "desc"
                             }
+                        },
+                        favorites: {
+                            orderBy: {
+                                createdAt: "desc"
+                            }
                         }
                     },
                     orderBy: {
@@ -35,6 +40,28 @@ export async function GET(
                 comments: {
                     include: {
                         user: true
+                    }
+                },
+                favorites: {
+                    include: {
+                        tweet: {
+                            include: {
+                                user: true,
+                                retweets: {
+                                    orderBy: {
+                                        createdAt: "desc"
+                                    }
+                                },
+                                favorites: {
+                                    orderBy: {
+                                        createdAt: "desc"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    orderBy: {
+                        createdAt: "desc"
                     }
                 }
             }

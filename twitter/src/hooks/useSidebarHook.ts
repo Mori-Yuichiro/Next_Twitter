@@ -16,6 +16,7 @@ export default function useSidebarHook() {
 
     const { instance } = axiosInstance();
 
+    const reload = useAppSelector(state => state.slice.reload);
     const dispatch = useAppDispatch();
 
     const ITEM_LIST: ItemListType[] = [
@@ -101,7 +102,7 @@ export default function useSidebarHook() {
             dispatch(changeCurrentUser(userProfile));
         }
         fetchUser();
-    }, [])
+    }, [reload])
 
     return {
         ITEM_LIST,

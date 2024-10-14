@@ -3,7 +3,7 @@ import axiosInstance from "@/lib/axiosInstance";
 import { fileRead, fileUpload, uploadImage } from "@/lib/fileUpload";
 import { profilePatchSchema, profilePatchSchemaType } from "@/lib/validations/profile";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { toggleModal } from "@/store/slice/slice";
+import { toggleModal, toggleReload } from "@/store/slice/slice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -19,6 +19,7 @@ export const useModalHook = (profile: ProfileType) => {
 
     // Reduxの設定
     const openModal = useAppSelector(state => state.slice.openModal);
+    const reload = useAppSelector(state => state.slice.reload);
     const dispatch = useAppDispatch();
 
     const { displayName, bio, location, website } = profile;
@@ -114,6 +115,7 @@ export const useModalHook = (profile: ProfileType) => {
             }
         }
         dispatch(toggleModal(!openModal));
+        dispatch(toggleReload(!reload));
     }
 
 
