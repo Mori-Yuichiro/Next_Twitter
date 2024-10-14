@@ -9,6 +9,7 @@ export const useProfileHook = (id: string) => {
     const router = useRouter();
 
     const openModal = useAppSelector(state => state.slice.openModal);
+    const reload = useAppSelector(state => state.slice.reload);
 
     const [profile, setProfile] = useState<ProfileType | null>(null);
 
@@ -20,7 +21,7 @@ export const useProfileHook = (id: string) => {
             setProfile(response.data);
         }
         fetchData();
-    }, [openModal])
+    }, [openModal, reload])
 
     return {
         router,
