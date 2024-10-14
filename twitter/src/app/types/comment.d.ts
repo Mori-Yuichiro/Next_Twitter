@@ -1,5 +1,5 @@
 import { TweetType } from "./tweet";
-import { User } from "./user";
+import { UserType } from "./user";
 
 export type CommentType = {
     id: number;
@@ -7,6 +7,6 @@ export type CommentType = {
     createdAt: string;
     userId: number;
     tweetId: number;
-    user: User;
+    user: UserType;
     // tweet: TweetType;
 }

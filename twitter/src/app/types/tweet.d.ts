@@ -1,6 +1,7 @@
 import { CommentType } from "./comment";
+import { FavoriteType } from "./favorite";
 import { RetweetType } from "./retweet";
-import { User } from "./user";
+import { UserType } from "./user";
 
 export type TweetType = {
     id: number;
@@ -9,7 +10,8 @@ export type TweetType = {
     updatedAt: string;
     userId: number;
     imageUrls: string[];
-    user: User;
+    user: UserType;
     comments: CommentType[];
     retweets: RetweetType[];
+    favorites: FavoriteType[];
 }

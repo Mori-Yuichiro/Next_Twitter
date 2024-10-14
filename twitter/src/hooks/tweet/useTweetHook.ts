@@ -10,6 +10,9 @@ export default function useTweetHook(tweet: TweetType) {
     const pathName = usePathname();
     const [openMenu, setOpenMenu] = useState<boolean>(false);
     const [checkRetweet, setCheckRetweet] = useState<boolean>(false);
+    const [checkFavorite, setCheckFavorite] = useState<boolean>(false);
+
+    const user = useAppSelector(state => state.slice.currentUser);
 
     const { instance } = axiosInstance();
 
@@ -43,11 +46,40 @@ export default function useTweetHook(tweet: TweetType) {
         }
     }
 
+    const onClickFavorite = async () => {
+        try {
+            const response = await instance.post(`/api/tweet/${tweet.id}/favorite`)
+                .catch(err => {
+                    throw err;
+                });
+            console.log(response);
+            dispatch(toggleReload(!reload));
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    const onClickDeleteFavorite = async () => {
+        try {
+            const response = await instance.delete(`/api/tweet/${tweet.id}/favorite`)
+                .catch(err => {
+                    throw err;
+                });
+            console.log(response);
+            dispatch(toggleReload(!reload));
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
     useEffect(() => {
         setCheckRetweet(
-            tweet.retweets.some(retweet => retweet.userId === tweet.user.id)
+            tweet.retweets.some(retweet => retweet.userId === user?.id)
         );
-    }, [tweet.retweets])
+        setCheckFavorite(
+            tweet.favorites.some(favorite => favorite.userId === user?.id)
+        );
+    }, [reload, tweet.retweets, tweet.favorites])
 
     return {
         pathName,
@@ -58,5 +90,8 @@ export default function useTweetHook(tweet: TweetType) {
         onClickRetweet,
         onClickDeleteRetweet,
         checkRetweet,
+        onClickFavorite,
+        onClickDeleteFavorite,
+        checkFavorite
     }
 }

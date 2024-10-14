@@ -1,14 +1,14 @@
 import { CommentType } from "@/app/types/comment";
 import { TweetType } from "@/app/types/tweet";
-import { User } from "@/app/types/user"
+import { UserType } from "@/app/types/user"
 
 type fieldType = {
-    user: User;
+    user: UserType;
     tweet: TweetType;
     comment: CommentType;
 }
 
-const defaultUser: User = {
+const defaultUser: UserType = {
     id: 0,
     name: "",
     email: "",
@@ -34,7 +34,8 @@ const defaultTweet: TweetType = {
     imageUrls: [],
     user: defaultUser,
     comments: [],
-    retweets: []
+    retweets: [],
+    favorites: []
 };
 
 const defaultComment: CommentType = {
