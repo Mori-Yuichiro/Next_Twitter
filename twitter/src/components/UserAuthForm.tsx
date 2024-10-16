@@ -13,6 +13,13 @@ export default function UserAuthForm() {
                             placeholder="test@example.com"
                             className="px-3 py-1"
                         />
+                        <label htmlFor="password">パスワード</label>
+                        <input
+                            id="password"
+                            type="password"
+                            placeholder="password"
+                            className="px-3 py-1"
+                        />
                     </div>
                     <Button
                         disabled
