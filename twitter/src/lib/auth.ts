@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { NextAuthOptions } from "next-auth";
 import Github from "next-auth/providers/github";
@@ -20,22 +21,33 @@ export const authOptions: NextAuthOptions = {
             async authorize(credentials) {
                 if (!credentials) return null;
 
+                if (!credentials.email || !credentials.password) {
+                    throw new Error('Email and password required');
+                }
+
                 const { email, password } = credentials;
+
 
                 // データベースからユーザーを取得
                 const user = await db.user.findUnique({
-                    where: { email },
+                    where: { email }
                 });
 
-                // パスワードの検証
-                // if (user && await bcrypt.compare(password, user.password)) {
-                //     return {
-                //         ...user,
-                //         id: user.id.toString()
-                //     }
-                // }
+                if (user) {
+                    if (!user.password) throw new Error("パスワードが必要です");
 
-                return null; // ユーザーが見つからないか、パスワードが不正な場合
+                    const isCorrectPassword = await bcrypt.compare(password, user.password);
+
+                    if (isCorrectPassword)
+                        return {
+                            ...user,
+                            id: user.id.toString()
+                        }
+
+                    return null;
+                } else {
+                    throw new Error("ユーザーが存在しません");
+                }
             },
         }),
     ],

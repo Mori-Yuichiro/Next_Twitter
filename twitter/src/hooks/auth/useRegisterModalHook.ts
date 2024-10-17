@@ -3,7 +3,7 @@ import { registerPatchScheme, RegisterPatchSchemeType } from "@/lib/validations/
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 

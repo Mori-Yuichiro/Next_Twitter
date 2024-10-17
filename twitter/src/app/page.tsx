@@ -4,6 +4,7 @@ import Button from "@/components/Button";
 import RegisterModal from "@/components/modal/RegisterModal";
 import useAppPageHook from "@/hooks/useAppPageHook";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 export default function Home() {
   const {
@@ -42,6 +43,13 @@ export default function Home() {
               className="flex items-center justify-center gap-3 border rounded-full w-full border-black py-2"
               onClick={() => setOpenRegisterModal(!openRegisterModal)}
             >アカウントを作成</Button>
+            <div className="text-center">
+              <p>すでにアカウントがある方は</p>
+              <Link
+                href={'/login'}
+                className="border-black border-b"
+              >ログイン</Link>
+            </div>
           </div>
         </div>
       </main>
