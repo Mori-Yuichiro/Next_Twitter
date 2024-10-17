@@ -1,42 +1,63 @@
 "use client"
 
 import Button from "@/components/Button";
+import RegisterModal from "@/components/modal/RegisterModal";
+import useAppPageHook from "@/hooks/useAppPageHook";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
+import Link from "next/link";
 
 export default function Home() {
-  const [isGithubLoading, setIsGithubLoading] = useState<boolean>(false);
+  const {
+    isGithubLoading,
+    setIsGithubLoading,
+    openRegisterModal,
+    setOpenRegisterModal
+  } = useAppPageHook();
 
   return (
-    <main className="min-h-screen flex max-lg:flex-col items-center gap-20 p-10 lg:p-0">
-      <div className="lg:h-dvh max-lg:w-32 w-1/2 flex flex-col items-center justify-center lg:border-r lg:border-black">
-        <svg xmlns="http://www.w3.org/2000/svg" width="80%" height="80%" viewBox="0 0 128 128"><path fill="#1d9bf0" d="M114.896 37.888c.078 1.129.078 2.257.078 3.396c0 34.7-26.417 74.72-74.72 74.72v-.02A74.343 74.343 0 0 1 0 104.21c2.075.25 4.16.375 6.25.38a52.732 52.732 0 0 0 32.615-11.263A26.294 26.294 0 0 1 14.331 75.09c3.937.76 7.993.603 11.857-.453c-12.252-2.475-21.066-13.239-21.066-25.74v-.333a26.094 26.094 0 0 0 11.919 3.287C5.5 44.139 1.945 28.788 8.913 16.787a74.535 74.535 0 0 0 54.122 27.435a26.277 26.277 0 0 1 7.598-25.09c10.577-9.943 27.212-9.433 37.154 1.139a52.696 52.696 0 0 0 16.677-6.376A26.359 26.359 0 0 1 112.92 28.42A52.227 52.227 0 0 0 128 24.285a53.35 53.35 0 0 1-13.104 13.603z" /></svg>
-      </div>
-      <div className="flex flex-col text-left gap-4">
-        <div className="flex flex-col gap-10">
-          <h1 className="text-5xl">全ての話題がここに。</h1>
-          <p className="text-3xl">今すぐ参加しましょう</p>
+    <>
+      <main className="min-h-screen flex max-lg:flex-col items-center gap-20 p-10 lg:p-0">
+        <div className="lg:h-dvh max-lg:w-32 w-1/2 flex flex-col items-center justify-center lg:border-r lg:border-black">
+          <svg xmlns="http://www.w3.org/2000/svg" width="80%" height="80%" viewBox="0 0 128 128"><path fill="#1d9bf0" d="M114.896 37.888c.078 1.129.078 2.257.078 3.396c0 34.7-26.417 74.72-74.72 74.72v-.02A74.343 74.343 0 0 1 0 104.21c2.075.25 4.16.375 6.25.38a52.732 52.732 0 0 0 32.615-11.263A26.294 26.294 0 0 1 14.331 75.09c3.937.76 7.993.603 11.857-.453c-12.252-2.475-21.066-13.239-21.066-25.74v-.333a26.094 26.094 0 0 0 11.919 3.287C5.5 44.139 1.945 28.788 8.913 16.787a74.535 74.535 0 0 0 54.122 27.435a26.277 26.277 0 0 1 7.598-25.09c10.577-9.943 27.212-9.433 37.154 1.139a52.696 52.696 0 0 0 16.677-6.376A26.359 26.359 0 0 1 112.92 28.42A52.227 52.227 0 0 0 128 24.285a53.35 53.35 0 0 1-13.104 13.603z" /></svg>
         </div>
-        <div className="w-2/3 flex flex-col gap-4 text-center">
-          <Button
-            className="flex items-center justify-center gap-3 border rounded-full w-full border-black py-2"
-            onClick={() => {
-              setIsGithubLoading(true);
-              signIn("github");
-            }}
-          >
-            {isGithubLoading ?
-              <svg className="animate-spin" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M13 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0ZM7.34 6.34a1 1 0 1 1-2 0a1 1 0 0 1 2 0Zm11.32 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0Zm0 11.32a1 1 0 1 1-2 0a1 1 0 0 1 2 0Zm-11.32 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0ZM21 12a1 1 0 1 1-2 0a1 1 0 0 1 2 0Zm-8 8a1 1 0 1 1-2 0a1 1 0 0 1 2 0Zm-8-8a1 1 0 1 1-2 0a1 1 0 0 1 2 0Z" /></svg>
-              : <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 432 416"><path fill="currentColor" d="M213.5 0q88.5 0 151 62.5T427 213q0 70-41 125.5T281 416q-14 2-14-11v-58q0-27-15-40q44-5 70.5-27t26.5-77q0-34-22-58q11-26-2-57q-18-5-58 22q-26-7-54-7t-53 7q-18-12-32.5-17.5T107 88h-6q-12 31-2 57q-22 24-22 58q0 55 27 77t70 27q-11 10-13 29q-42 18-62-18q-12-20-33-22q-2 0-4.5.5t-5 3.5t8.5 9q14 7 23 31q1 2 2 4.5t6.5 9.5t13 10.5T130 371t30-2v36q0 13-14 11q-64-22-105-77.5T0 213q0-88 62.5-150.5T213.5 0z" /></svg>}
-            GitHubで登録する
-          </Button>
-          <p>または</p>
-          <Button
-            disabled
-            className="flex items-center justify-center gap-3 border rounded-full w-full border-black py-2"
-          >アカウントを作成</Button>
+        <div className="flex flex-col text-left gap-4">
+          <div className="flex flex-col gap-10">
+            <h1 className="text-5xl">全ての話題がここに。</h1>
+            <p className="text-3xl">今すぐ参加しましょう</p>
+          </div>
+          <div className="w-2/3 flex flex-col gap-4 text-center">
+            <Button
+              className="flex items-center justify-center gap-3 border rounded-full w-full border-black py-2"
+              onClick={() => {
+                setIsGithubLoading(true);
+                signIn("github");
+              }}
+            >
+              {isGithubLoading ?
+                <svg className="animate-spin" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M13 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0ZM7.34 6.34a1 1 0 1 1-2 0a1 1 0 0 1 2 0Zm11.32 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0Zm0 11.32a1 1 0 1 1-2 0a1 1 0 0 1 2 0Zm-11.32 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0ZM21 12a1 1 0 1 1-2 0a1 1 0 0 1 2 0Zm-8 8a1 1 0 1 1-2 0a1 1 0 0 1 2 0Zm-8-8a1 1 0 1 1-2 0a1 1 0 0 1 2 0Z" /></svg>
+                : <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 432 416"><path fill="currentColor" d="M213.5 0q88.5 0 151 62.5T427 213q0 70-41 125.5T281 416q-14 2-14-11v-58q0-27-15-40q44-5 70.5-27t26.5-77q0-34-22-58q11-26-2-57q-18-5-58 22q-26-7-54-7t-53 7q-18-12-32.5-17.5T107 88h-6q-12 31-2 57q-22 24-22 58q0 55 27 77t70 27q-11 10-13 29q-42 18-62-18q-12-20-33-22q-2 0-4.5.5t-5 3.5t8.5 9q14 7 23 31q1 2 2 4.5t6.5 9.5t13 10.5T130 371t30-2v36q0 13-14 11q-64-22-105-77.5T0 213q0-88 62.5-150.5T213.5 0z" /></svg>}
+              GitHubで登録する
+            </Button>
+            <p>または</p>
+            <Button
+              className="flex items-center justify-center gap-3 border rounded-full w-full border-black py-2"
+              onClick={() => setOpenRegisterModal(!openRegisterModal)}
+            >アカウントを作成</Button>
+            <div className="text-center">
+              <p>すでにアカウントがある方は</p>
+              <Link
+                href={'/login'}
+                className="border-black border-b"
+              >ログイン</Link>
+            </div>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+      {openRegisterModal &&
+        <RegisterModal
+          openRegisterModal={openRegisterModal}
+          setOpenRegisterModal={setOpenRegisterModal}
+        />}
+    </>
   );
 }
