@@ -72,6 +72,8 @@ model User {
   comments  Comment[]
   retweets  Retweet[]
   favorites Favorite[]
+  following Relationship[] @relation("Follower")
+  followers Relationship[] @relation("Followed")
 
   @@map(name: "users")
 }
@@ -141,4 +143,17 @@ model Favorite {
 
   @@unique([userId, tweetId])
   @@map(name: "favorites")
+}
+
+model Relationship {
+  id         Int      @id @default(autoincrement())
+  followerId Int      @map(name: "follower_id")
+  followedId Int      @map(name: "followed_id")
+  createdAt  DateTime @default(now()) @map(name: "created_at")
+
+  follower User @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+  followed User @relation("Followed", fields: [followedId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followedId])
+  @@map(name: "relationships")
 }

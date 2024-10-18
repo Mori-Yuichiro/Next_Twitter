@@ -14,3 +14,5 @@ export type UserType = {
     createdAt: string;
     updatedAt: string;
 }
+
+export type CurrentUserType = UserType | undefined;

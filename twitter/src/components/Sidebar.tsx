@@ -38,7 +38,7 @@ export default function Sidebar() {
                 className="flex items-center gap-3 cursor-pointer"
             >
                 <div className="bg-slate-400 w-8 h-8 rounded-full">
-                    {user && <img className="w-full h-full rounded-full" src={user.image!} alt="icon" />}
+                    {user?.image && <img className="w-full h-full rounded-full" src={user.image!} alt="icon" />}
                 </div>
                 {user?.displayName ? (
                     <p>{user?.displayName}</p>

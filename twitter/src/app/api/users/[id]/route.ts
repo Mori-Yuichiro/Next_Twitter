@@ -63,7 +63,9 @@ export async function GET(
                     orderBy: {
                         createdAt: "desc"
                     }
-                }
+                },
+                following: true,
+                followers: true
             }
         });
 

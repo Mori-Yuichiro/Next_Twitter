@@ -3,6 +3,7 @@ import { TweetType } from "./tweet";
 import { CommentType } from "./comment";
 import { RetweetType } from "./retweet";
 import { FavoriteType } from "./favorite";
+import { RelationshipType } from "./relationship";
 
 
 // type ProfileTweetType = Omit<TweetType, "user">;
@@ -13,4 +14,6 @@ export type ProfileType = UserType &
 { tweets: TweetType[] } &
 { comments: CommentType[] } &
 { retweets: RetweetType[] } &
-{ favorites: (FavoriteType & { tweet: TweetType })[] }
+{ favorites: (FavoriteType & { tweet: TweetType })[] } &
+{ following: RelationshipType[] } &
+{ followers: RelationshipType[] }
