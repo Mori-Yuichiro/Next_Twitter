@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 export const useProfileHook = (id: string) => {
     const { instance } = axiosInstance();
     const router = useRouter();
+    const user = useAppSelector(state => state.slice.currentUser);
 
     const openModal = useAppSelector(state => state.slice.openModal);
     const reload = useAppSelector(state => state.slice.reload);
@@ -25,6 +26,7 @@ export const useProfileHook = (id: string) => {
 
     return {
         router,
+        user,
         profile,
         tab,
         setTab

@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserType } from "@/app/types/user";
-
-type CurrentUserType = UserType | undefined;
+import { CurrentUserType, UserType } from "@/app/types/user";
 
 interface State {
     openModal: boolean;

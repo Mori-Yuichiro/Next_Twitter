@@ -11,6 +11,7 @@ export default function ProfilePage(
 ) {
     const {
         router,
+        user,
         profile,
         tab,
         setTab
@@ -21,6 +22,7 @@ export default function ProfilePage(
             {profile ?
                 <Profile
                     router={router}
+                    user={user}
                     profile={profile}
                     tab={tab}
                     setTab={setTab}

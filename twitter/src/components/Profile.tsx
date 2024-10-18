@@ -4,32 +4,34 @@ import { ProfileType } from "@/app/types/profile";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Button from "./Button";
 import { Dispatch, SetStateAction } from "react";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { toggleModal } from "@/store/slice/slice";
 import Modal from "./modal/Modal";
+import { CurrentUserType } from "@/app/types/user";
+import { useProfileComponentHook } from "@/hooks/profile/useProfileComponentHook";
 
 export default function Profile(
     {
         children,
         router,
+        user,
         profile,
         tab,
         setTab
     }: {
         children: React.ReactNode,
         router: AppRouterInstance,
+        user: CurrentUserType
         profile: ProfileType,
         tab: string,
         setTab: Dispatch<SetStateAction<string>>
     },
 ) {
-    const openModal = useAppSelector(state => state.slice.openModal);
-    const dispatch = useAppDispatch();
-
-    const onClickToggleModal = () => {
-        dispatch(toggleModal(!openModal));
-    }
-
+    const {
+        openModal,
+        onClickToggleModal,
+        onClickFollow,
+        checkFollow,
+        onClickUnfollow
+    } = useProfileComponentHook(profile);
 
     return (
         <>
@@ -51,10 +53,26 @@ export default function Profile(
                     {profile.image && <img className="w-full h-full rounded-full" src={profile.image} alt="プロフィール・アイコン" />}
                 </div>
                 <div className="flex justify-end p-4">
-                    <Button
-                        className="rounded-full border border-black px-2 py-1"
-                        onClick={onClickToggleModal}
-                    >Edit Profile</Button>
+                    {(profile.id === user?.id) ? (
+                        <Button
+                            className="rounded-full border border-black px-2 py-1"
+                            onClick={onClickToggleModal}
+                        >Edit Profile</Button>
+                    ) : (
+                        <>
+                            {checkFollow ? (
+                                <Button
+                                    className="rounded-full border border-black px-2 py-1 bg-black text-white"
+                                    onClick={onClickUnfollow}
+                                >Following</Button>
+                            ) : (
+                                <Button
+                                    className="rounded-full border border-black px-2 py-1"
+                                    onClick={onClickFollow}
+                                >Follow</Button>
+                            )}
+                        </>
+                    )}
                 </div>
             </div>
             <div className="mb-8 px-4 space-y-10">
@@ -62,8 +80,8 @@ export default function Profile(
                 <p>{profile.bio}</p>
                 <p>{profile.website}</p>
                 <div className="flex gap-x-3">
-                    <p>0 Following</p>
-                    <p>0 Followers</p>
+                    <p>{profile.following.length} Following</p>
+                    <p>{profile.followers.length} Followers</p>
                 </div>
             </div>
             <ul className="list-reset flex border-b border-black overflow-x-auto">
