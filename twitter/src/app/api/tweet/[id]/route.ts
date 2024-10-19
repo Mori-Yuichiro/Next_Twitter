@@ -28,7 +28,8 @@ export async function GET(
                         createdAt: "desc"
                     }
                 },
-                retweets: true
+                retweets: true,
+                favorites: true
             }
         });
 

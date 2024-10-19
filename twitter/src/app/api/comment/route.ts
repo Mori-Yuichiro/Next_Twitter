@@ -1,4 +1,5 @@
 import { authOptions } from "@/lib/auth";
+import { checkNotification } from "@/lib/create_notification";
 import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -33,11 +34,39 @@ export async function POST(req: NextRequest) {
                 createdAt: now
             },
             select: {
-                id: true
+                tweet: true
             }
         });
 
-        return NextResponse.json(result);
+        if (result) {
+            const existingNotification = await checkNotification(
+                Number(user.id),
+                Number(result.tweet.userId),
+                "comment"
+            );
+
+            if (existingNotification) {
+                return NextResponse.json(null, { status: 200 });
+            } else {
+                if (Number(result.tweet.userId) === Number(user.id)) return NextResponse.json(null, { status: 200 });
+
+                const notification = await db.notification.create({
+                    data: {
+                        visitedId: Number(result.tweet.userId),
+                        visitorId: Number(user.id),
+                        tweetId: Number(tweetId),
+                        action: "comment"
+                    },
+                    select: {
+                        id: true
+                    }
+                });
+
+                return NextResponse.json(notification, { status: 200 });
+            }
+        } else {
+            return NextResponse.json(null, { status: 400 });
+        }
     } catch (err) {
         console.error("Error:" + err);
         return NextResponse.json(null, { status: 500 });
