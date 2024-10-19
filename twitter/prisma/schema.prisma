@@ -74,6 +74,8 @@ model User {
   favorites Favorite[]
   following Relationship[] @relation("Follower")
   followers Relationship[] @relation("Followed")
+  visitors  Notification[] @relation("Visitor")
+  visiteds  Notification[] @relation("Visited")
 
   @@map(name: "users")
 }
@@ -98,9 +100,10 @@ model Tweet {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  comments  Comment[]
-  retweets  Retweet[]
-  favorites Favorite[]
+  comments      Comment[]
+  retweets      Retweet[]
+  favorites     Favorite[]
+  notifications Notification[]
 
   @@map(name: "tweets")
 }
@@ -156,4 +159,20 @@ model Relationship {
 
   @@unique([followerId, followedId])
   @@map(name: "relationships")
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  visitorId Int      @map(name: "visitor_id")
+  visitedId Int      @map(name: "visited_id")
+  tweetId   Int?     @map(name: "tweet_id")
+  action    String   @default("")
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now()) @map(name: "created_at")
+
+  visitor User   @relation("Visitor", fields: [visitorId], references: [id], onDelete: Cascade)
+  visited User   @relation("Visited", fields: [visitedId], references: [id], onDelete: Cascade)
+  tweet   Tweet? @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+
+  @@map(name: "notifications")
 }
