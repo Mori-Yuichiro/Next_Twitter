@@ -1,4 +1,4 @@
-import { ProfileType } from "@/app/types/profile";
+import { ProfileApiType } from "@/app/types/profile";
 import axiosInstance from "@/lib/axiosInstance";
 import { useAppSelector } from "@/store/hooks";
 import { useRouter } from "next/navigation"
@@ -12,7 +12,7 @@ export const useProfileHook = (id: string) => {
     const openModal = useAppSelector(state => state.slice.openModal);
     const reload = useAppSelector(state => state.slice.reload);
 
-    const [profile, setProfile] = useState<ProfileType | null>(null);
+    const [profile, setProfile] = useState<ProfileApiType | null>(null);
 
     const [tab, setTab] = useState<string>("posts");
 

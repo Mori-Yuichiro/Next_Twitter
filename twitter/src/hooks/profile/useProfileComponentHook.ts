@@ -2,6 +2,7 @@ import { ProfileType } from "@/app/types/profile";
 import axiosInstance from "@/lib/axiosInstance";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { toggleModal, toggleReload } from "@/store/slice/slice";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export const useProfileComponentHook = (profile: ProfileType) => {
@@ -13,6 +14,8 @@ export const useProfileComponentHook = (profile: ProfileType) => {
     const reload = useAppSelector(state => state.slice.reload);
     const user = useAppSelector(state => state.slice.currentUser);
     const dispatch = useAppDispatch();
+
+    const router = useRouter();
 
     const onClickToggleModal = () => {
         dispatch(toggleModal(!openModal));
@@ -46,6 +49,26 @@ export const useProfileComponentHook = (profile: ProfileType) => {
         }
     }
 
+    const onClickMessages = async () => {
+        try {
+            const response = await instance.post(
+                `/api/group`,
+                {
+                    anotherUserId: profile.id
+                }
+            );
+
+            if (response.status === 200) {
+                dispatch(toggleReload(!reload));
+                router.push(`/groups/${response.data.groupId}`);
+            } else {
+                throw new Error("グループの作成にに失敗しました");
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
     useEffect(() => {
         setCheckFollow(
             profile.followers.some(follower => follower.followerId === user?.id)
@@ -57,6 +80,7 @@ export const useProfileComponentHook = (profile: ProfileType) => {
         onClickToggleModal,
         checkFollow,
         onClickFollow,
-        onClickUnfollow
+        onClickUnfollow,
+        onClickMessages
     };
 }

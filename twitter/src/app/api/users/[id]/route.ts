@@ -14,9 +14,38 @@ export async function GET(
             return NextResponse.json("Unauthorized", { status: 403 });
         }
 
-        const user = await db.user.findFirst({
+        const { user } = session;
+        const { id } = params;
+
+        // DM機能に関する処理
+        const currentUserEntries = await db.entry.findMany({
             where: {
-                id: Number(params.id)
+                userId: Number(user.id)
+            }
+        });
+
+        const anotherUserEntries = await db.entry.findMany({
+            where: {
+                userId: Number(id)
+            }
+        });
+
+        let isGroup = false;
+        let commonGroupIds: number[] = [];
+
+        if (user.id !== id) {
+            const currentUserGroupIds = currentUserEntries.map(entry => entry.groupId);
+            const anotherUserGroupIds = anotherUserEntries.map(entry => entry.groupId);
+            commonGroupIds = currentUserGroupIds.filter(groupId => anotherUserGroupIds.includes(groupId));
+
+            if (commonGroupIds.length > 0) {
+                isGroup = true;
+            }
+        }
+
+        const profile = await db.user.findFirst({
+            where: {
+                id: Number(id)
             },
             include: {
                 tweets: {
@@ -69,7 +98,18 @@ export async function GET(
             }
         });
 
-        return NextResponse.json(user);
+        if (commonGroupIds.length > 0) {
+            return NextResponse.json({
+                profile,
+                isGroup,
+                commonGroupId: commonGroupIds[0]
+            }, { status: 200 });
+        } else {
+            return NextResponse.json({
+                profile,
+                isGroup
+            }, { status: 200 });
+        }
     } catch {
         return NextResponse.json(null, { status: 500 });
     }
