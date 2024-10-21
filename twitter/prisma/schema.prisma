@@ -76,6 +76,8 @@ model User {
   followers Relationship[] @relation("Followed")
   visitors  Notification[] @relation("Visitor")
   visiteds  Notification[] @relation("Visited")
+  entries   Entry[]
+  messages  Message[]
 
   @@map(name: "users")
 }
@@ -175,4 +177,38 @@ model Notification {
   tweet   Tweet? @relation(fields: [tweetId], references: [id], onDelete: Cascade)
 
   @@map(name: "notifications")
+}
+
+model Group {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map(name: "created_at")
+
+  entries  Entry[]
+  messages Message[]
+
+  @@map(name: "groups")
+}
+
+model Entry {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map(name: "user_id")
+  groupId   Int      @map(name: "group_id")
+  createdAt DateTime @default(now()) @map(name: "created_at")
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@map(name: "entries")
+}
+
+model Message {
+  id      Int    @id @default(autoincrement())
+  userId  Int    @map(name: "user_id")
+  groupId Int    @map(name: "group_id")
+  message String @db.Text
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@map(name: "messages")
 }
