@@ -17,3 +17,9 @@ export type ProfileType = UserType &
 { favorites: (FavoriteType & { tweet: TweetType })[] } &
 { following: RelationshipType[] } &
 { followers: RelationshipType[] }
+
+export type ProfileApiType = {
+    profile: ProfileType;
+    isGroup: boolean;
+    commonGroupId?: number;
+}

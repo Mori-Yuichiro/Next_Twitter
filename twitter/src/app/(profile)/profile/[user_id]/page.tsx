@@ -29,7 +29,7 @@ export default function ProfilePage(
                 >
                     {tab === "posts" ? (
                         <div>
-                            {profile.tweets.map(tweet => (
+                            {profile.profile.tweets.map(tweet => (
                                 <div
                                     key={`profile-tweet-${tweet.id}`}
                                     className="border-black border-b">
@@ -39,7 +39,7 @@ export default function ProfilePage(
                         </div>
                     ) : tab === "comments" ? (
                         <div>
-                            {profile.comments.map(comment => (
+                            {profile.profile.comments.map(comment => (
                                 <div
                                     key={`profile-comment-${comment.id}`}>
                                     <Comment comment={comment} />
@@ -48,7 +48,7 @@ export default function ProfilePage(
                         </div>
                     ) : tab === "likes" ? (
                         <div>
-                            {profile.favorites.map(favorite => (
+                            {profile.profile.favorites.map(favorite => (
                                 <div key={`profile-like-${favorite.id}`}
                                     className="border-black border-b">
                                     <Tweet tweet={favorite.tweet} />
