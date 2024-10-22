@@ -8,6 +8,52 @@ const entrySchema = z.object({
     anotherUserId: z.number()
 });
 
+export async function GET(req: NextRequest) {
+    try {
+        const session = await getServerSession(authOptions);
+
+        if (!session) {
+            return NextResponse.json("Unauthorized", { status: 403 });
+        }
+
+        const { user } = session;
+
+        const groups = await db.group.findMany({
+            where: {
+                entries: {
+                    some: {
+                        userId: {
+                            not: Number(user.id)
+                        }
+                    }
+                }
+            },
+            include: {
+                entries: {
+                    where: {
+                        userId: {
+                            not: Number(user.id)
+                        }
+                    },
+                    include: {
+                        user: true,
+                    }
+                },
+                messages: {
+                    orderBy: {
+                        id: "desc"
+                    },
+                    take: 1
+                }
+            }
+        });
+
+        return NextResponse.json(groups, { status: 200 });
+    } catch (err) {
+        return NextResponse.json(err, { status: 500 });
+    }
+}
+
 export async function POST(req: NextRequest) {
     try {
         const session = await getServerSession(authOptions);
