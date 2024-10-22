@@ -11,7 +11,11 @@ export default function GroupMessages(
         router,
         messages,
         entry,
-        user
+        user,
+        register,
+        handleSubmit,
+        errors,
+        onSubmit
     } = useGroupMessagesHook(params.id);
 
 
@@ -31,7 +35,10 @@ export default function GroupMessages(
                         </h1>
                     </div>
                     {messages.map(message => (
-                        <div className="flex flex-col gap-y-3">
+                        <div
+                            key={message.id}
+                            className="flex flex-col gap-y-3"
+                        >
                             {(message.userId === user?.id) ? (
                                 <div className="p-3 h-[calc(100vh-2.5rem - 45px)]">
                                     <div className="border-black border rounded-3xl w-1/3 p-3 bg-cyan-300 ml-auto text-wrap">
@@ -52,14 +59,18 @@ export default function GroupMessages(
                             )}
                         </div>
                     ))}
+                    {errors.message && <p className="text-red-500">{errors.message.message}</p>}
                     <div className="flex gap-x-2 justify-between h-10 w-full px-10 mt-auto mb-3">
                         <input
+                            id="message"
                             type="text"
                             placeholder="new message"
                             className="border border-black rounded-xl p-2 w-4/5"
+                            {...register("message")}
                         />
                         <Button
                             className="border-black border rounded-full w-1/6 bg-cyan-400"
+                            onClick={handleSubmit(onSubmit)}
                         >Send</Button>
                     </div>
                 </div>
