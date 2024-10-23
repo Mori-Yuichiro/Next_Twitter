@@ -9,6 +9,8 @@ import useHomeHook from "@/hooks/useHomeHook";
 export default function HomePage() {
     const {
         tweets,
+        tab,
+        onClickChangeTab,
         register,
         handleSubmit,
         errors,
@@ -25,11 +27,17 @@ export default function HomePage() {
             {tweets ? (
                 <>
                     <ul className="list-reset flex border-b border-black sticky">
-                        <li className="-mb-px mr-1 w-1/2 mx-auto border-r border-black text-center">
-                            <a className="inline-block rounded-t py-2 px-4 text-blue-dark font-semibold" href="#">For You</a>
+                        <li
+                            className={`-mb-px w-1/2 mx-auto border-b border-r border-black text-center rounded-t py-2 px-4 text-blue-dark font-semibold cursor-pointer ${tab === "all" && "bg-slate-300"}`}
+                            onClick={() => onClickChangeTab("all")}
+                        >
+                            For You
                         </li>
-                        <li className="mr-1 w-1/2 text-center">
-                            <a className="inline-block py-2 px-4 text-blue hover:text-blue-darker font-semibold" href="#">Following</a>
+                        <li
+                            className={`cursor-pointer mr-1 w-1/2 text-center py-2 px-4 text-blue hover:text-blue-darker font-semibold ${tab === "follower" && "bg-slate-300"}`}
+                            onClick={() => onClickChangeTab("follower")}
+                        >
+                            Following
                         </li>
                     </ul>
                     <div className="border-b border-black p-3">
