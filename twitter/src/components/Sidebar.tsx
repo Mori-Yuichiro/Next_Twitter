@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Button from "./Button";
 import useSidebarHook from "../hooks/useSidebarHook";
+import { signOut } from "next-auth/react";
 
 export default function Sidebar() {
     const { ITEM_LIST, user } = useSidebarHook();
@@ -36,6 +37,7 @@ export default function Sidebar() {
             <Button disabled className="rounded-full bg-cyan-400 py-2">Post</Button>
             <div
                 className="flex items-center gap-3 cursor-pointer"
+                onClick={() => signOut()}
             >
                 <div className="bg-slate-400 w-8 h-8 rounded-full">
                     {user?.image && <img className="w-full h-full rounded-full" src={user.image!} alt="icon" />}
