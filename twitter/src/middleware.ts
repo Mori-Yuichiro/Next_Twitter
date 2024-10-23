@@ -33,5 +33,5 @@ export default withAuth(
 );
 
 export const config = {
-    matcher: ["/", "/login", "/home", "/tweet\/([0-9]+)", "/profile\/([0-9]+)", "/notifications"],
+    matcher: ["/", "/login", "/home", "/tweet\/([0-9]+)", "/profile\/([0-9]+)", "/notifications", "/groups", "/groups\/([0-9]+)"],
 }
