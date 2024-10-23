@@ -17,7 +17,9 @@ export async function GET(req: NextRequest) {
             return NextResponse.json("Unauthorized", { status: 403 });
         }
 
-        const tweets = await db.tweet.findMany({
+        const { user } = session;
+
+        const allTweets = await db.tweet.findMany({
             include: {
                 user: true,
                 retweets: true,
@@ -28,8 +30,37 @@ export async function GET(req: NextRequest) {
             }
         });
 
-        return NextResponse.json(tweets);
+        const followerTweets = await db.tweet.findMany({
+            where: {
+                OR: [
+                    {
+                        userId: Number(user.id),
+                    },
+                    {
+                        user: {
+                            followers: {
+                                some: {
+                                    followerId: Number(user.id)
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            include: {
+                user: true,
+                retweets: true,
+                favorites: true
+            },
+            orderBy: {
+                updatedAt: "desc"
+            }
+        });
 
+        return NextResponse.json({
+            allTweets,
+            followerTweets
+        }, { status: 200 });
     } catch {
         return NextResponse.json(null, { status: 500 });
     }

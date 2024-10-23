@@ -15,6 +15,11 @@ export default function useHomeHook() {
     const { instance } = axiosInstance();
     const [tweets, setTweets] = useState<TweetType[] | null>(null);
 
+    const [tab, setTab] = useState<"all" | "follower">("all");
+    const onClickChangeTab = (selectedTab: "all" | "follower") => {
+        setTab(selectedTab);
+    }
+
     const openDeleteModal = useAppSelector(state => state.slice.openDeleteModal);
     const reload = useAppSelector(state => state.slice.reload);
     const dispatch = useAppDispatch();
@@ -81,15 +86,21 @@ export default function useHomeHook() {
     useEffect(() => {
         async function fetchData() {
             const response = await instance.get('api/tweet');
-            if (response !== undefined) {
-                setTweets(response.data as TweetType[]);
+            if (response.status === 200) {
+                if (tab === "all") {
+                    setTweets(response.data.allTweets as TweetType[]);
+                } else {
+                    setTweets(response.data.followerTweets as TweetType[]);
+                }
             }
         }
         fetchData();
-    }, [images, openDeleteModal, reload])
+    }, [images, openDeleteModal, reload, tab])
 
     return {
         tweets,
+        tab,
+        onClickChangeTab,
         register,
         handleSubmit,
         errors,
